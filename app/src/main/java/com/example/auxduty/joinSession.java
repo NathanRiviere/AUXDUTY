@@ -29,7 +29,7 @@ public class joinSession extends AppCompatActivity {
         arr = new ArrayList<songInfo>();
         Intent intent = getIntent();
         String ID = intent.getStringExtra("SessionId");
-        DatabaseReference db = FirebaseDatabase.getInstance().getReference("Session/test session");
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference("Session/" + ID + "/Host songs");
         db.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -37,6 +37,7 @@ public class joinSession extends AppCompatActivity {
                     songInfo song = data.getValue(songInfo.class);
                     arr.add(song);
                 }
+                songInfo s = arr.get(0);
                 ListView list = (ListView) findViewById(R.id.listJoin);
                 songAdapter adapter = new songAdapter(mContext, R.layout.song_display, arr);
                 list.setAdapter(adapter);
