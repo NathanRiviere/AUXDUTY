@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">AUXDUTY</string>
+    <string name="x">SONG</string>
+    <string name="enterSession">Enter Session Id</string>
+    <string name="ok">ok</string>
+    <string name="cancel">cancel</string>
+</resources>

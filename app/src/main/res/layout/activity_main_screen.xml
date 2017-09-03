@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.auxduty.MainScreen"
+    tools:ignore="ExtraText">
+
+<TextView
+    android:layout_width="wrap_content"
+    android:text="AUX DUTY"
+    android:textStyle="bold"
+    android:textSize="30sp"
+    android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:text=""
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/fireball"
+        android:src="@drawable/animated_fireball"
+        android:layout_width="35dp"
+        android:layout_height="38dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:text=""
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:text="Start session"
+            android:onClick="startSessionClicked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20sp"/>
+
+        <Button
+            android:id="@+id/joinSessionId"
+            android:onClick="joinSessionClicked"
+            android:text="join session"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20sp"/>
+
+    </LinearLayout>
+
+</LinearLayout>
