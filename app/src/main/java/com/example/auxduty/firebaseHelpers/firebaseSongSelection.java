@@ -40,18 +40,27 @@ public class firebaseSongSelection extends AsyncTask<Void, Void, ArrayList<songI
     protected ArrayList<songInfo> doInBackground(Void... params) {
         String[] projection = {
                 MediaStore.Audio.AudioColumns.ARTIST,
-                MediaStore.MediaColumns.DISPLAY_NAME
+                MediaStore.MediaColumns.DISPLAY_NAME,
+                MediaStore.Audio.Media.DATA,
+                MediaStore.Audio.AudioColumns.YEAR
         };
         Uri allsongsuri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
-        String song_name, artist_name;
+        String song_name, artist_name, genre_name, fullpath;
+        MediaMetadataRetriever metaRetriver = new MediaMetadataRetriever();
+        int year;
         Cursor cursor = context.getContentResolver().query(allsongsuri, projection, selection, null, null);
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 do {
                     song_name = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
                     artist_name = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST));
-                    songInfo s = new songInfo(artist_name, song_name);
+                    fullpath = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));
+                    metaRetriver.setDataSource(fullpath);
+                    genre_name = metaRetriver.extractMetadata(MediaMetadataRetriever.METADATA_KEY_GENRE);
+                    if(genre_name == null) { genre_name = "null"; }
+                    year = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.YEAR));
+                    songInfo s = new songInfo(artist_name, song_name, genre_name, year);
                     arr.add(s);
                 } while (cursor.moveToNext());
             }
