@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/footer"
+    android:gravity="center_horizontal"
+    android:weightSum="1">
+
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="50dp"
+        android:layout_height="38dp"
+        android:layout_marginRight="20sp"
+        android:layout_marginTop="20sp"
+        android:background="@null"
+        android:onClick="prevClick"
+        android:scaleType="fitCenter"
+        android:src="@drawable/final_prev_button" />
+
+    <ImageButton
+        android:id="@+id/imageButton3"
+        android:layout_width="47dp"
+        android:layout_height="46dp"
+        android:layout_marginLeft="20sp"
+        android:layout_marginRight="20sp"
+        android:layout_marginTop="20sp"
+        android:background="@null"
+        android:onClick="playPauseClick"
+        android:scaleType="fitCenter"
+        android:src="@drawable/final_play_pause" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="40dp"
+        android:layout_height="43dp"
+        android:layout_marginLeft="20sp"
+        android:layout_marginTop="20sp"
+        android:background="@null"
+        android:onClick="nextClick"
+        android:scaleType="fitCenter"
+        android:src="@drawable/final_next_button" />
+
+</LinearLayout>

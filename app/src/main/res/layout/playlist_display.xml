@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:id="@+id/songname"
+        android:textSize="17sp"
+        android:paddingLeft="20sp"
+        android:paddingTop="10sp"
+        android:text="SONG NAME">
+    </TextView>
+    <TextView
+        android:id="@+id/artistname"
+        android:textColor="@color/black"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:paddingLeft="20sp"
+        android:paddingTop="5sp"
+        android:text="ARTIST NAME">
+    </TextView>
+
+</LinearLayout>

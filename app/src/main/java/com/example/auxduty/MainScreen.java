@@ -10,6 +10,8 @@ import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import stanford.androidlib.SimpleActivity;
 import com.example.auxduty.firebaseHelpers.firebaseSongSelection;
+
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.view.animation.Animation;
@@ -32,18 +34,31 @@ import java.util.ArrayList;
 public class MainScreen extends SimpleActivity {
     private String m_Text;
     private Context context = this;
-
+    private ImageView fireball;
+    private DatabaseReference database;
+    private Thread thread;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
-        ImageView fireball = (ImageView) findViewById(R.id.fireball);
+        fireball = (ImageView) findViewById(R.id.fireball);
+    }
+      /*  thread = new Thread() {
+            @Override
+            public void run() {
+                RotateAnimation rotate = new RotateAnimation(0, 360000, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                rotate.setDuration(3000000);
+                rotate.setInterpolator(new LinearInterpolator());
+                fireball.startAnimation(rotate);
+            }
+        };
+        thread.start();
+        } */
 
      /*   RotateAnimation rotate = new RotateAnimation(0, 360000, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         rotate.setDuration(3000000);
         rotate.setInterpolator(new LinearInterpolator());
         fireball.startAnimation(rotate); */
-    }
 
     public void startSessionClicked(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -57,8 +72,6 @@ public class MainScreen extends SimpleActivity {
             public void onClick(DialogInterface dialog, int which) {
                 m_Text = input.getText().toString();
                 createSession(m_Text);
-                Intent intent = new Intent(context, startSession.class);
-                startActivity(intent);
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -101,6 +114,7 @@ public class MainScreen extends SimpleActivity {
                 if (snapshot.exists()) {
                     Intent intent = new Intent(context, joinSession.class);
                     intent.putExtra("SessionId", m_text);
+                    intent.putExtra("isHost", false);
                     startActivity(intent);
                 }
                 else {
@@ -115,9 +129,20 @@ public class MainScreen extends SimpleActivity {
     }
 
     private void createSession(String m_text) {
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-        new firebaseSongSelection(this, database, m_Text).execute();
-
+        database = FirebaseDatabase.getInstance().getReference();
+        database.child("Sessions/" + m_text).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    if (!(snapshot.exists())) {
+                        new firebaseSongSelection(context, database, m_Text).execute();
+                        // ADD LOADING ANIMATION
+                    } else {
+                        Toast.makeText(context, "Session ID is already in use, please use another ID.", Toast.LENGTH_LONG).show();
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
     }
-
 }

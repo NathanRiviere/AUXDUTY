@@ -5,6 +5,7 @@ import android.content.AsyncTaskLoader;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.media.MediaMetadataRetriever;
@@ -16,11 +17,11 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 import com.example.auxduty.data.musicDataContract;
+import com.example.auxduty.joinSession;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 
 public class firebaseSongSelection extends AsyncTask<Void, Void, ArrayList<songInfo>> {
@@ -72,5 +73,9 @@ public class firebaseSongSelection extends AsyncTask<Void, Void, ArrayList<songI
     @Override
     protected void onPostExecute(ArrayList<songInfo> result) {
         db.child("Sessions/" + _id + "/Host songs").setValue(result);
+        Intent intent = new Intent(context, joinSession.class);
+        intent.putExtra("SessionId", _id);
+        intent.putExtra("isHost", true);
+        context.startActivity(intent);
     }
 }
