@@ -4,9 +4,59 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:id="@+id/playlist_container">
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_marginRight="15dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:padding="15sp"
+        android:onClick="endSeshClicked"
+        android:text="End Session"
+        android:layout_marginBottom="10dp"/>
+
     <ListView
         android:id="@+id/playlist"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_weight="1"
+        android:layout_height="0dp">
     </ListView>
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="50dp"
+        android:layout_height="38dp"
+        android:layout_marginRight="20sp"
+        android:layout_marginTop="20sp"
+        android:background="@null"
+        android:onClick="prevClick"
+        android:scaleType="fitCenter"
+        android:src="@drawable/final_prev_button" />
+    <ImageButton
+        android:id="@+id/imageButton3"
+        android:layout_width="47dp"
+        android:layout_height="46dp"
+        android:layout_marginLeft="30sp"
+        android:layout_marginRight="20sp"
+        android:layout_marginTop="20sp"
+        android:background="@null"
+        android:onClick="playPauseClick"
+        android:scaleType="fitCenter"
+        android:src="@drawable/final_play_pause" />
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="50dp"
+        android:layout_height="38dp"
+        android:layout_marginLeft="30sp"
+        android:layout_marginTop="20sp"
+        android:background="@null"
+        android:onClick="nextClick"
+        android:scaleType="fitCenter"
+        android:src="@drawable/final_next_button" />
+    </LinearLayout>
 </LinearLayout>

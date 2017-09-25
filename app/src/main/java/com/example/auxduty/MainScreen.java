@@ -1,11 +1,14 @@
 package com.example.auxduty;
 
+import android.*;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.provider.BaseColumns;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import stanford.androidlib.SimpleActivity;
@@ -42,8 +45,7 @@ public class MainScreen extends SimpleActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
         fireball = (ImageView) findViewById(R.id.fireball);
-    }
-      /*  thread = new Thread() {
+        thread = new Thread() {
             @Override
             public void run() {
                 RotateAnimation rotate = new RotateAnimation(0, 360000, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
@@ -53,7 +55,9 @@ public class MainScreen extends SimpleActivity {
             }
         };
         thread.start();
-        } */
+        ActivityCompat.requestPermissions(MainScreen.this,
+                new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+        }
 
      /*   RotateAnimation rotate = new RotateAnimation(0, 360000, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         rotate.setDuration(3000000);
@@ -144,5 +148,23 @@ public class MainScreen extends SimpleActivity {
                 public void onCancelled(DatabaseError databaseError) {
                 }
             });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission granted and now can proceed
+                    return;
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    Toast.makeText(MainScreen.this, "Permission denied to read your song storage", Toast.LENGTH_SHORT).show();
+                }
+                // add other cases for more permissions
+            }
+        }
     }
 }

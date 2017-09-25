@@ -82,123 +82,77 @@ public class joinSession extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         int Pos = Integer.parseInt((String) v.getTag(R.id.fireball));
-                        View mRow = list.getChildAt(Pos  % list.getChildCount());
-                        View fRow;
-                        if (fireballCount == 0) {
-                            fRow = list.getChildAt(fireballPos);
-                        } else {
-                            fRow = null;
-                        }
-                        if (starArray.contains(Pos)) {
-                            mRow.setBackgroundColor(Color.parseColor("#ffa500"));
-                            adapter.selected.put(Pos, "Orange");
-                            starCount++;
-                            tvStar.setText("" + starCount);
-                            starArray.remove(starArray.indexOf(Pos));
-                            fireballPos = Pos;
-                            if (fRow == null) {
-                                fireballCount = 0;
-                                tvFire.setText("" + fireballCount);
-                            } else {
-                                fRow.setBackgroundColor(Color.parseColor("#ffffff"));
-                                adapter.selected.remove(fireballPos);
-                            }
-                        } else if (checkArray.contains(Pos)) {
-                            mRow.setBackgroundColor(Color.parseColor("#ffa500"));
-                            adapter.selected.put(Pos, "Orange");
-                            checkCount++;
-                            tvCheck.setText("" + checkCount);
-                            checkArray.remove(checkArray.indexOf(Pos));
-                            fireballPos = Pos;
-                            if (fRow == null) {
-                                fireballCount = 0;
-                                tvFire.setText("" + fireballCount);
-                            } else {
-                                fRow.setBackgroundColor(Color.parseColor("#ffffff"));
-                                adapter.selected.remove(fireballPos);
-                            }
-                        } else if (fireballPos == Pos) {
+                        int topPos = Integer.parseInt((String) list.getChildAt(0).findViewById(R.id.fireball).getTag(R.id.fireball));
+                        View mRow = list.getChildAt(Pos - topPos);
+                        if(adapter.selected.containsKey(Pos) && adapter.selected.get(Pos).equals("Orange")) {
                             mRow.setBackgroundColor(Color.parseColor("#ffffff"));
-                            adapter.selected.remove(fireballPos);
+                            adapter.selected.remove(Pos);
                             fireballCount++;
-                            tvFire.setText("" + fireballCount);
                             fireballPos = -1;
-                        } else if (fireballCount == 1) {
-                            mRow.setBackgroundColor(Color.parseColor("#ffa500"));
-                            adapter.selected.put(Pos, "Orange");
-                            fireballCount--;
                             tvFire.setText("" + fireballCount);
-                            fireballPos = Pos;
-                        } else {
-                        }
-                    }
-                };
+                        } else if (fireballCount == 1) {
+                            if(adapter.selected.containsKey(Pos)) {
+                                Toast.makeText(getApplicationContext(), "Remove selection first.", Toast.LENGTH_LONG );
+                            } else {
+                                mRow.setBackgroundColor(Color.parseColor("#ffa500"));
+                                adapter.selected.put(Pos, "Orange");
+                                fireballCount--;
+                                fireballPos = Pos;
+                                tvFire.setText("" + fireballCount);
+                            }
+                        } else { Toast.makeText(getApplicationContext(), "Remove a Lit song first.", Toast.LENGTH_LONG ); }}};
+
                 View.OnClickListener mStarListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         int Pos = Integer.parseInt((String) v.getTag(R.id.star));
-                        if (starCount > 0 && (!starArray.contains(Pos))) {
-                            View mView = list.getChildAt(Pos % list.getChildCount());
-                            mView.setBackgroundColor(Color.parseColor("#ffff00"));
-                            adapter.selected.put(Pos, "Yellow");
-                            starCount--;
+                        int topPos = Integer.parseInt((String) list.getChildAt(0).findViewById(R.id.star).getTag(R.id.star));
+                        if(adapter.selected.containsKey(Pos) && adapter.selected.get(Pos).equals("Yellow")) {
+                            View mView = list.getChildAt(Pos - topPos);
+                            mView.setBackgroundColor(Color.parseColor("#ffffff"));
+                            adapter.selected.remove(Pos);
+                            starCount++;
                             tvStar.setText("" + starCount);
-                            starArray.add(Pos);
-                            if (checkArray.contains(Pos)) {
-                                checkCount++;
-                                tvCheck.setText("" + checkCount);
-                                checkArray.remove(checkArray.indexOf(Pos));
-                            } else if (fireballPos == Pos) {
-                                fireballCount++;
-                                tvFire.setText("" + fireballCount);
-                                fireballPos = -1;
-                            } else {
-                            }
-                        } else {
-                            if (starArray.contains(Pos)) {
-                                View mView = list.getChildAt(Pos);
-                                mView.setBackgroundColor(Color.parseColor("#ffffff"));
-                                adapter.selected.remove(Pos);
-                                starCount++;
+                            starArray.remove(starArray.indexOf(Pos));
+                        } else if(!(adapter.selected.containsKey(Pos))) {
+                            if(starCount > 0) {
+                                View mView = list.getChildAt(Pos - topPos);
+                                mView.setBackgroundColor(Color.parseColor("#ffff00"));
+                                adapter.selected.put(Pos, "Yellow");
+                                starCount--;
                                 tvStar.setText("" + starCount);
-                                starArray.remove(starArray.indexOf(Pos));
-                            }
-                        }
-                    }
-                };
+                                starArray.add(Pos);
+                            } else { Toast.makeText(getApplicationContext(), "Remove a favorite first.", Toast.LENGTH_LONG ); }
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Remove selection first.", Toast.LENGTH_LONG );
+                        } }};
+
                 View.OnClickListener mCheckListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         int Pos = Integer.parseInt((String) v.getTag(R.id.check));
-                        if (checkCount > 0 && (!checkArray.contains(Pos))) {
-                            View mView = list.getChildAt(Pos);
-                            mView.setBackgroundColor(Color.parseColor("#00ff00"));
-                            adapter.selected.put(Pos, "Green");
-                            checkCount--;
+                        int topPos = Integer.parseInt((String) list.getChildAt(0).findViewById(R.id.check).getTag(R.id.check));
+                        if(adapter.selected.containsKey(Pos) && adapter.selected.get(Pos).equals("Green")) {
+                            View mView = list.getChildAt(Pos - topPos);
+                            mView.setBackgroundColor(Color.parseColor("#ffffff"));
+                            adapter.selected.remove(Pos);
+                            checkCount++;
                             tvCheck.setText("" + checkCount);
-                            checkArray.add(Pos);
-                            if (starArray.contains(Pos)) {
-                                starCount++;
-                                tvStar.setText("" + starCount);
-                                starArray.remove(starArray.indexOf(Pos));
-                            } else if (fireballPos == Pos) {
-                                fireballCount++;
-                                tvFire.setText("" + fireballCount);
-                                fireballPos = -1;
-                            } else {
-                            }
-                        } else {
-                            if (checkArray.contains(Pos)) {
-                                View mView = list.getChildAt(Pos);
-                                mView.setBackgroundColor(Color.parseColor("#ffffff"));
-                                adapter.selected.remove(Pos);
-                                checkCount++;
+                            checkArray.remove(checkArray.indexOf(Pos));
+                        } else if(!(adapter.selected.containsKey(Pos))) {
+                            if(checkCount > 0) {
+                                View mView = list.getChildAt(Pos - topPos);
+                                mView.setBackgroundColor(Color.parseColor("#00ff00"));
+                                adapter.selected.put(Pos, "Green");
+                                checkCount--;
                                 tvCheck.setText("" + checkCount);
-                                checkArray.remove(checkArray.indexOf(Pos));
-                            }
-                        }
-                    }
-                };
+                                Log.i("postion", "" + Pos);
+                                checkArray.add(Pos);
+                            } else { Toast.makeText(getApplicationContext(), "Remove a checked song first.", Toast.LENGTH_LONG ); }
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Remove selection first.", Toast.LENGTH_LONG );
+                        } }};
+
                 adapter = new songAdapter(mContext, R.layout.song_display, arr, mFireListener, mStarListener, mCheckListener);
                 list.setAdapter(adapter);
             }
@@ -206,7 +160,6 @@ public class joinSession extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {}});
     }
-
 
     public void finishClicked(View view) {
         songInfo fireSong = null;
@@ -220,12 +173,10 @@ public class joinSession extends AppCompatActivity {
             starSongs = getSongs(starArray, 20);
         }
         if(fireballCount != 1) {
-            TextView tvSong = (TextView) list.getChildAt(fireballPos).findViewById(R.id.song_id);
-            TextView tvArtist = (TextView) list.getChildAt(fireballPos).findViewById(R.id.artist_id);
-            String songName = tvSong.getText().toString();
-            String artistName = tvArtist.getText().toString();
+            String songName = arr.get(fireballPos).songName;
+            String artistName = arr.get(fireballPos).artist;
             for (songInfo s : arr) {
-                if (s.songName == songName && s.artist == artistName) {
+                if (s.songName.equals(songName) && s.artist.equals(artistName)) {
                     fireSong = s;
                     fireSong.priority = 30;
                     break;
@@ -246,7 +197,7 @@ public class joinSession extends AppCompatActivity {
         db.child(key).setValue(sendToServer);
         if(isHost) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("End voting/Get playlist").setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            builder.setTitle("Press OK to end voting.").setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             // pull chosen songs from server, create playlist, post playlist to server
                             songFound = false;
@@ -258,12 +209,12 @@ public class joinSession extends AppCompatActivity {
                                         for (DataSnapshot songSnap : deck.getChildren()) {
                                             songInfo song = songSnap.getValue(songInfo.class);
                                             for(songInfo s : playlist) {
-                                                if(s.songName == song.songName && s.artist == song.artist) {
+                                                if(s.songName.equals(song.songName) && s.artist.equals(song.artist)) {
                                                     s.priority += song.priority + 15;
                                                     songFound = true;
-                                                } else if(s.artist == song.artist && s.artist != "<unknown>") {
+                                                } else if(s.artist.equals(song.artist) && s.artist != "<unknown>") {
                                                     s.priority += 10;
-                                                } else if(s.genre == song.genre && s.genre != "null") {
+                                                } else if(s.genre.equals(song.genre) && s.genre != "null") {
                                                     s.priority += 5;
                                                 } else if(s.year == song.year && s.year != 0) {
                                                     s.priority += 5;
@@ -298,7 +249,7 @@ public class joinSession extends AppCompatActivity {
                                     i.putExtra("length", k);
                                     DatabaseReference grab = FirebaseDatabase.getInstance().getReference("Sessions/" + ID + "/Playlist");
                                     grab.setValue(litPlaylist);
-                               //     grab.getParent().removeValue();
+                                    grab.getParent().removeValue();
                                     startActivity(i);
                                 }
 
@@ -313,13 +264,13 @@ public class joinSession extends AppCompatActivity {
             listen.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                  //  if(changeListener == 0) {
-                    //    changeListener++;
-                    //} else {
+                    if(changeListener == 0) {
+                        changeListener++;
+                    } else {
                         Intent in = new Intent(getApplicationContext(), passengarPlaylist.class);
                         in.putExtra("ID", ID);
                         startActivity(in);
-                   // }
+                    }
                 }
 
                 @Override
@@ -332,12 +283,12 @@ public class joinSession extends AppCompatActivity {
 
     private ArrayList<songInfo> getSongs(ArrayList<Integer> intArray, int pri) {
         ArrayList<songInfo> temp = new ArrayList<songInfo>();
-        songInfo arrSong;
         for (Integer i : intArray) {
-            TextView tvSong = (TextView) list.getChildAt(i).findViewById(R.id.song_id);
-            TextView tvArtist = (TextView) list.getChildAt(i).findViewById(R.id.artist_id);
-            String songName = tvSong.getText().toString();
-            String artistName = tvArtist.getText().toString();
+            arr.get(i).priority = pri;
+            temp.add(arr.get(i));
+        } /*
+            String songName = adapter.objects.get(adapter.objects.indexOf(i)).songName;
+            String artistName = adapter.objects.get(adapter.objects.indexOf(i)).artist;
             for (songInfo s : arr) {
                 if (s.songName == songName && s.artist == artistName) {
                     s.priority = pri;
@@ -345,7 +296,7 @@ public class joinSession extends AppCompatActivity {
                     break;
                 }
             }
-        }
+        }             */
         return temp;
     }
 }

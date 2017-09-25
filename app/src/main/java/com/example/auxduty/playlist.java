@@ -3,6 +3,7 @@ package com.example.auxduty;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -22,9 +23,11 @@ import android.widget.Toast;
 import com.example.auxduty.Adapters.playlistAdapter;
 import com.example.auxduty.data.musicDataContract;
 import com.example.auxduty.firebaseHelpers.songInfo;
+import com.example.auxduty.positionCallback;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class playlist extends AppCompatActivity {
     ArrayList<MediaPlayer>player;
@@ -35,6 +38,7 @@ public class playlist extends AppCompatActivity {
     int currIndex;
     int len;
     Integer songPostion;
+    HashMap<Integer, Integer>positions;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -45,6 +49,7 @@ public class playlist extends AppCompatActivity {
         lv = (ListView) findViewById(R.id.playlist);
         Intent intent = getIntent();
         ArrayList<String> songs = new ArrayList<>();
+        positions = new HashMap<>();
         player = new ArrayList<>();
         display = new ArrayList<>();
         len = intent.getIntExtra("length", 0);
@@ -66,6 +71,7 @@ public class playlist extends AppCompatActivity {
             selectionArray[i] = songs.get(i);
         }
 
+
         Cursor cursor = this.getContentResolver().query(uri, null, selection, selectionArray, null, null);
         String song_name, artist_name, fullpath;
 
@@ -83,7 +89,10 @@ public class playlist extends AppCompatActivity {
                         public void onCompletion(MediaPlayer mp) {
                             currIndex++;
                             if(currIndex == len)  { Toast.makeText(getApplicationContext(), "End of playlist", Toast.LENGTH_LONG); }
-                            else { player.get(currIndex).start(); }
+                            else {
+                                player.get(currIndex).start();
+                                lv.getChildAt(positions.get(currIndex)).setBackgroundColor(Color.parseColor("#ffa500"));
+                            }
                         }
                     });
                     player.add(tempMedia);
@@ -97,12 +106,13 @@ public class playlist extends AppCompatActivity {
             player.get(i).setNextMediaPlayer(player.get(i+1));
         }
         */
-
-        adapter = new playlistAdapter(this, R.layout.playlist_display, display);
-        View footer = LayoutInflater.from(this).inflate(R.layout.buttons_display, lv, false);
+        positionCallback cb = new positionCallback(this, lv, positions);
+        adapter = new playlistAdapter(this, R.layout.playlist_display, display, cb);
+      //  View footer = LayoutInflater.from(this).inflate(R.layout.buttons_display, lv, false);
         lv.setAdapter(adapter);
-        lv.addFooterView(footer);
+      //  lv.addFooterView(footer);
         currIndex = 0;
+        positions.put(0, 0);
         player.get(currIndex).start();
     }
 
@@ -112,6 +122,12 @@ public class playlist extends AppCompatActivity {
             player.get(currIndex - 1).pause();
             player.get(currIndex).seekTo(0);
             player.get(currIndex).start();
+            lv.getChildAt(positions.get(currIndex)).setBackgroundColor(Color.parseColor("#ffa500"));
+            lv.getChildAt(positions.get(currIndex) - 1).setBackgroundColor(Color.parseColor("#ffffff"));
+            //           if(lv.getChildAt(positions.get(currIndex)) == null) {
+   //             Log.i("wtf", "" + positions.get(currIndex));
+     //       }
+       //     lv.getChildAt(positions.get(currIndex)).setBackgroundColor(Color.parseColor("#ffa500"));
         } else {
             --currIndex;
         }
@@ -133,8 +149,19 @@ public class playlist extends AppCompatActivity {
             player.get(currIndex + 1).pause();
             player.get(currIndex).seekTo(0);
             player.get(currIndex).start();
+            lv.getChildAt(positions.get(currIndex)).setBackgroundColor(Color.parseColor("#ffa500"));
+            lv.getChildAt(positions.get(currIndex) + 1).setBackgroundColor(Color.parseColor("#ffffff"));
         } else {
             ++currIndex;
         }
+    }
+
+    public void endSeshClicked(View view) {
+        player.get(currIndex).pause();
+        player.clear();
+        display.clear();
+        positions.clear();
+        Intent intent = new Intent(this, MainScreen.class);
+        startActivity(intent);
     }
 }

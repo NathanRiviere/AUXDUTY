@@ -6,6 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -21,35 +25,14 @@ import java.util.ArrayList;
 
 
 public class passengarPlaylist extends AppCompatActivity {
-    playlistAdapter adapter;
-    String ID;
-    ArrayList<songInfo> arr;
-    ListView lv;
-    LinearLayout container;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.passengar_playlist);
-      //  container = (LinearLayout) findViewById(R.id.passengar_container);
-        lv = (ListView) findViewById(R.id.passPlaylist); // add container
-        arr = new ArrayList<>();
-        Intent intent = getIntent();
-        ID = intent.getStringExtra("ID");
-        DatabaseReference db = FirebaseDatabase.getInstance().getReference("Sessions/" + ID + "/Playlist");
-        db.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    songInfo song = data.getValue(songInfo.class);
-                    arr.add(song);
-                }
-                adapter = new playlistAdapter(getApplicationContext(), R.layout.playlist_display, arr);
-                lv.setAdapter(adapter);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
+        ImageView fireball = (ImageView) findViewById(R.id.fire);
+        RotateAnimation rotate = new RotateAnimation(0, 360000, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        rotate.setDuration(3000000);
+        rotate.setInterpolator(new LinearInterpolator());
+        fireball.startAnimation(rotate);
     }
 }

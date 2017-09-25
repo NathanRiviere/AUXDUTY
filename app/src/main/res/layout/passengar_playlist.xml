@@ -5,10 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/passengar_container"
-    tools:context=".passengarPlaylist">
-    <ListView
-        android:id="@+id/passPlaylist"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </ListView>
+    tools:context=".passengarPlaylist"
+    android:gravity="center_horizontal|center_vertical">
+
+    <ImageView
+        android:layout_width="60dp"
+        android:id="@+id/fire"
+        android:layout_height="60dp"
+        android:src="@drawable/animated_fireball"/>
+    <TextView
+        android:paddingTop="20dp"
+        android:layout_width="wrap_content"
+        android:textSize="25dp"
+        android:text="Enjoy the music!"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>

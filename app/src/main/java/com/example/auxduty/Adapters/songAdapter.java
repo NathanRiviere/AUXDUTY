@@ -24,6 +24,7 @@ import java.util.List;
 public class songAdapter extends ArrayAdapter<songInfo> {
     private int fireballCount, starCount, checkCount;
     private View.OnClickListener mFire, mStar, mCheck;
+    public ArrayList<songInfo> objects;
     public HashMap<Integer, String> selected;
     public songAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull ArrayList<songInfo> objects, View.OnClickListener mFire,
                        View.OnClickListener mStar,View.OnClickListener mCheck) {
@@ -32,6 +33,7 @@ public class songAdapter extends ArrayAdapter<songInfo> {
         this.mFire = mFire;
         this.mStar = mStar;
         this.mCheck = mCheck;
+        this.objects = objects;
         selected = new HashMap<>();
     }
 
