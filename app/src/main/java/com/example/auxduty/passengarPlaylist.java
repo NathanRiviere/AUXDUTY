@@ -25,14 +25,22 @@ import java.util.ArrayList;
 
 
 public class passengarPlaylist extends AppCompatActivity {
+    ImageView fireball;
+    RotateAnimation rotate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.passengar_playlist);
-        ImageView fireball = (ImageView) findViewById(R.id.fire);
-        RotateAnimation rotate = new RotateAnimation(0, 360000, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        fireball = (ImageView) findViewById(R.id.fire);
+        rotate = new RotateAnimation(0, 360000, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         rotate.setDuration(3000000);
         rotate.setInterpolator(new LinearInterpolator());
         fireball.startAnimation(rotate);
+    }
+
+    public void leaveClicked(View view) {
+        rotate.cancel();
+        Intent intent = new Intent(this, MainScreen.class);
+        startActivity(intent);
     }
 }

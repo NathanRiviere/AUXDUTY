@@ -16,6 +16,7 @@
         android:text="End Session"
         android:layout_marginBottom="10dp"/>
 
+
     <ListView
         android:id="@+id/playlist"
         android:layout_width="match_parent"
@@ -59,4 +60,14 @@
         android:scaleType="fitCenter"
         android:src="@drawable/final_next_button" />
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:id="@+id/playingSong"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textSize="15dp"
+        android:text="Currently Playing: RANDM SNOG NAME  - ASDSD "/>
+
+
 </LinearLayout>

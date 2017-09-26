@@ -236,7 +236,7 @@ public class joinSession extends AppCompatActivity {
                                     });
                                     ArrayList<songInfo> litPlaylist = new ArrayList<songInfo>();
                                     int length = playlist.size();
-                                    for(int i = 0; i < length ; i++) {
+                                    for(int i = 0; i < length && i < 10 ; i++) {
                                         litPlaylist.add(playlist.get(i));
                                     }
                                     Intent i = new Intent(getApplicationContext(), playlist.class);
@@ -278,6 +278,8 @@ public class joinSession extends AppCompatActivity {
 
                 }
             });
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Waiting for the host to end voting.");
         }
     }
 

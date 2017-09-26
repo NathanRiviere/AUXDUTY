@@ -15,16 +15,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.MediaController;
 import android.widget.Toast;
-
 import com.example.auxduty.Adapters.playlistAdapter;
 import com.example.auxduty.data.musicDataContract;
 import com.example.auxduty.firebaseHelpers.songInfo;
 import com.example.auxduty.positionCallback;
-
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,7 +70,6 @@ public class playlist extends AppCompatActivity {
             selectionArray[i] = songs.get(i);
         }
 
-
         Cursor cursor = this.getContentResolver().query(uri, null, selection, selectionArray, null, null);
         String song_name, artist_name, fullpath;
 
@@ -88,10 +86,17 @@ public class playlist extends AppCompatActivity {
                         @Override
                         public void onCompletion(MediaPlayer mp) {
                             currIndex++;
-                            if(currIndex == len)  { Toast.makeText(getApplicationContext(), "End of playlist", Toast.LENGTH_LONG); }
+                            if(currIndex == len)  { Toast.makeText(getApplicationContext(), "End of playlist", Toast.LENGTH_LONG).show(); }
                             else {
                                 player.get(currIndex).start();
-                                lv.getChildAt(positions.get(currIndex)).setBackgroundColor(Color.parseColor("#ffa500"));
+                            /*      if(currIndex >= lv.getFirstVisiblePosition() && currIndex <= lv.getLastVisiblePosition()) {
+                                    makeOrange(currIndex, currIndex - 1);
+                                    adapter.playing = currIndex;
+                                } else {
+                                    adapter.playing = currIndex;
+                                    lv.getChildAt(currIndex - 1).setBackgroundColor(Color.parseColor("#ffffff"));
+                                }
+                            //    lv.getChildAt(positions.get(currIndex)).setBackgroundColor(Color.parseColor("#ffa500")); */
                             }
                         }
                     });
@@ -110,7 +115,44 @@ public class playlist extends AppCompatActivity {
         adapter = new playlistAdapter(this, R.layout.playlist_display, display, cb);
       //  View footer = LayoutInflater.from(this).inflate(R.layout.buttons_display, lv, false);
         lv.setAdapter(adapter);
+ /*       lv.setOnScrollListener(new AbsListView.OnScrollListener() {
+            private int currentVisibleItemCount;
+            private int currentScrollState;
+            private int currentFirstVisibleItem;
+            private int totalItem;
+            private LinearLayout lBelow;
+
+
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                this.currentScrollState = scrollState;
+                this.isScrollCompleted();
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem,
+                                 int visibleItemCount, int totalItemCount) {
+                this.currentFirstVisibleItem = firstVisibleItem;
+                this.currentVisibleItemCount = visibleItemCount;
+                this.totalItem = totalItemCount;
+
+
+            }
+
+            private void isScrollCompleted() {
+                if (totalItem - currentFirstVisibleItem == currentVisibleItemCount
+                        && this.currentScrollState == SCROLL_STATE_IDLE) {
+                    if(currIndex >= lv.getFirstVisiblePosition() && currIndex <= lv.getLastVisiblePosition()) {
+                        Log.i("sadsd", "" + lv.getFirstVisiblePosition());
+                       // lv.getChildAt(currIndex - lv.getFirstVisiblePosition()).setBackgroundColor(Color.parseColor("ffa500"));
+                    }
+
+
+                }
+            }
+        });
       //  lv.addFooterView(footer);
+      */
         currIndex = 0;
         positions.put(0, 0);
         player.get(currIndex).start();
@@ -122,12 +164,15 @@ public class playlist extends AppCompatActivity {
             player.get(currIndex - 1).pause();
             player.get(currIndex).seekTo(0);
             player.get(currIndex).start();
-            lv.getChildAt(positions.get(currIndex)).setBackgroundColor(Color.parseColor("#ffa500"));
-            lv.getChildAt(positions.get(currIndex) - 1).setBackgroundColor(Color.parseColor("#ffffff"));
-            //           if(lv.getChildAt(positions.get(currIndex)) == null) {
-   //             Log.i("wtf", "" + positions.get(currIndex));
-     //       }
-       //     lv.getChildAt(positions.get(currIndex)).setBackgroundColor(Color.parseColor("#ffa500"));
+        /*  if(lv.getLastVisiblePosition() == (currIndex - 1)) {
+                lv.scrollBy(0, lv.getChildAt(0).getHeight());
+                lv.getChildAt(lv.getLastVisiblePosition()).setBackgroundColor(Color.parseColor("#ffa500"));
+                lv.getChildAt(lv.getLastVisiblePosition() - 1).setBackgroundColor(Color.parseColor("#ffffff"));
+                positions.put(currIndex, lv.getLastVisiblePosition());
+            } else {
+                lv.getChildAt(positions.get(currIndex)).setBackgroundColor(Color.parseColor("#ffa500"));
+                lv.getChildAt(positions.get(currIndex) - 1).setBackgroundColor(Color.parseColor("#ffffff"));
+            } */
         } else {
             --currIndex;
         }
@@ -144,13 +189,30 @@ public class playlist extends AppCompatActivity {
     }
 
     public void prevClick(View view) {
-        --currIndex;
+        currIndex = currIndex - 1;
         if(currIndex > -1) {
             player.get(currIndex + 1).pause();
             player.get(currIndex).seekTo(0);
             player.get(currIndex).start();
-            lv.getChildAt(positions.get(currIndex)).setBackgroundColor(Color.parseColor("#ffa500"));
-            lv.getChildAt(positions.get(currIndex) + 1).setBackgroundColor(Color.parseColor("#ffffff"));
+        /*     if(currIndex >= lv.getFirstVisiblePosition() && currIndex <= lv.getLastVisiblePosition()) {
+                Log.i("fuck", "sdadsa: " + currIndex);
+                makeOrange(currIndex - lv.getFirstVisiblePosition(), currIndex + 1 - lv.getFirstVisiblePosition());
+                adapter.playing = currIndex;
+            } else {
+                adapter.playing = currIndex;
+                if(currIndex + 1 >= lv.getFirstVisiblePosition() && currIndex + 1 <= lv.getLastVisiblePosition()) {
+                    lv.getChildAt(currIndex + 1).setBackgroundColor(Color.parseColor("#ffffff"));
+                }
+            }
+           if(lv.getFirstVisiblePosition() == (currIndex + 1)) {
+                lv.scrollBy(0, (-1) * lv.getChildAt(0).getHeight());
+                lv.getChildAt(lv.getFirstVisiblePosition()).setBackgroundColor(Color.parseColor("#ffa500"));
+                lv.getChildAt(lv.getFirstVisiblePosition() + 1).setBackgroundColor(Color.parseColor("#ffffff"));
+                positions.put(currIndex, lv.getFirstVisiblePosition());
+            } else {
+                lv.getChildAt(positions.get(currIndex)).setBackgroundColor(Color.parseColor("#ffa500"));
+                lv.getChildAt(positions.get(currIndex) + 1).setBackgroundColor(Color.parseColor("#ffffff"));
+            } */
         } else {
             ++currIndex;
         }
@@ -163,5 +225,10 @@ public class playlist extends AppCompatActivity {
         positions.clear();
         Intent intent = new Intent(this, MainScreen.class);
         startActivity(intent);
+    }
+
+    private void makeOrange(int Opos, int Wpos) {
+        lv.getChildAt(Opos).setBackgroundColor(Color.parseColor("#ffa500"));
+        lv.getChildAt(Wpos).setBackgroundColor(Color.parseColor("#ffffff"));
     }
 }
