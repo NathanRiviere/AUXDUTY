@@ -72,6 +72,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:onClick="finishClicked"
-        android:text="FINISH"/>
+        android:text="submit"/>
     </LinearLayout>
 </LinearLayout>

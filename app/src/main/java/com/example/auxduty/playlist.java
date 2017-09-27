@@ -115,7 +115,8 @@ public class playlist extends AppCompatActivity {
         adapter = new playlistAdapter(this, R.layout.playlist_display, display, cb);
       //  View footer = LayoutInflater.from(this).inflate(R.layout.buttons_display, lv, false);
         lv.setAdapter(adapter);
- /*       lv.setOnScrollListener(new AbsListView.OnScrollListener() {
+ /*
+            lv.setOnScrollListener(new AbsListView.OnScrollListener() {
             private int currentVisibleItemCount;
             private int currentScrollState;
             private int currentFirstVisibleItem;
@@ -230,5 +231,11 @@ public class playlist extends AppCompatActivity {
     private void makeOrange(int Opos, int Wpos) {
         lv.getChildAt(Opos).setBackgroundColor(Color.parseColor("#ffa500"));
         lv.getChildAt(Wpos).setBackgroundColor(Color.parseColor("#ffffff"));
+    }
+
+    @Override
+    protected void onDestroy() {
+        endSeshClicked(null);
+        super.onDestroy();
     }
 }
