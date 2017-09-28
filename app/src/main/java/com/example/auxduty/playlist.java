@@ -155,11 +155,12 @@ public class playlist extends AppCompatActivity {
       //  lv.addFooterView(footer);
       */
         currIndex = 0;
-        positions.put(0, 0);
+        if(len == 0) { return; }
         player.get(currIndex).start();
     }
 
     public void nextClick(View view) {
+        if(len == 0) { return; }
         ++currIndex;
         if(currIndex < len) {
             player.get(currIndex - 1).pause();
@@ -180,6 +181,7 @@ public class playlist extends AppCompatActivity {
     }
 
     public void playPauseClick(View view) {
+        if(len == 0) { return; }
         if(player.get(currIndex).isPlaying()) {
             player.get(currIndex).pause();
             songPostion = player.get(currIndex).getCurrentPosition();
@@ -190,6 +192,7 @@ public class playlist extends AppCompatActivity {
     }
 
     public void prevClick(View view) {
+        if(len == 0) { return; }
         currIndex = currIndex - 1;
         if(currIndex > -1) {
             player.get(currIndex + 1).pause();
@@ -220,12 +223,17 @@ public class playlist extends AppCompatActivity {
     }
 
     public void endSeshClicked(View view) {
-        player.get(currIndex).pause();
-        player.clear();
-        display.clear();
-        positions.clear();
-        Intent intent = new Intent(this, MainScreen.class);
-        startActivity(intent);
+        if (len == 0) {
+            Intent intent = new Intent(this, MainScreen.class);
+            startActivity(intent);
+        } else {
+            player.get(currIndex).pause();
+            player.clear();
+            display.clear();
+            positions.clear();
+            Intent intent = new Intent(this, MainScreen.class);
+            startActivity(intent);
+        }
     }
 
     private void makeOrange(int Opos, int Wpos) {
