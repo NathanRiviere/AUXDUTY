@@ -29,12 +29,16 @@ public class firebaseSongSelection extends AsyncTask<Void, Void, ArrayList<songI
     private ArrayList<songInfo> arr;
     private String _id;
     private DatabaseReference db;
+    private String _session_key;
+    private int _song_amount;
 
-    public firebaseSongSelection(Context context, DatabaseReference db, String Id) {
+    public firebaseSongSelection(Context context, DatabaseReference db, String Id, String session_key, int song_amount) {
         arr = new ArrayList<>();
         this.context = context;
         _id = Id;
         this.db = db;
+        _session_key = session_key;
+        _song_amount = song_amount;
     }
 
     @Override
@@ -76,6 +80,8 @@ public class firebaseSongSelection extends AsyncTask<Void, Void, ArrayList<songI
         Intent intent = new Intent(context, joinSession.class);
         intent.putExtra("SessionId", _id);
         intent.putExtra("isHost", true);
+        intent.putExtra("sk", _session_key);
+        intent.putExtra("dsa", _song_amount);
         context.startActivity(intent);
     }
 }

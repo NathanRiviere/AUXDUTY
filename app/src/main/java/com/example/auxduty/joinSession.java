@@ -249,7 +249,6 @@ public class joinSession extends AppCompatActivity {
                     songFound = false;
                     DatabaseReference db = FirebaseDatabase.getInstance().getReference("Sessions/" + ID + "/Chosen songs");
                     db.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @RequiresApi(api = Build.VERSION_CODES.N)
                         @Override
                         public void onDataChange(DataSnapshot snapshot) {
                             for (DataSnapshot deck : snapshot.getChildren()) {
@@ -279,15 +278,11 @@ public class joinSession extends AppCompatActivity {
                                     }
                                 }
                             }
-                            playlist.sort(new Comparator<songInfo>() {
-                                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                                @Override
-                                public int compare(songInfo o1, songInfo o2) {
-                                    return o2.compareTo(o1);
-                                }
-                            });
+                            mySort(playlist);
                             ArrayList<songInfo> litPlaylist = new ArrayList<songInfo>();
                             int length = playlist.size();
+                            /**********************************************************************/
+                            /* TODO ADD CUSTOMIBILITY ON NEXT LINE FOR DIFFERENT SIZE PLAYLISTS   */
                             for (int i = 0; i < length && i < 10; i++) {
                                 litPlaylist.add(playlist.get(i));
                             }
@@ -317,6 +312,20 @@ public class joinSession extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Waiting for the host to end voting.");
             builder.show();
+        }
+    }
+
+    private void mySort(ArrayList<songInfo> playlist) {
+        for (int i = 1; i < playlist.size(); i++) {
+            int j = i - 1;
+            if (playlist.get(i).priority > playlist.get(j).priority) {
+                while ((j >= 0) && (playlist.get(j + 1).priority > playlist.get(j).priority)) {
+                    songInfo temp = playlist.get(j);
+                    playlist.set(j, playlist.get(j + 1));
+                    playlist.set(j + 1, temp);
+                    j--;
+                }
+            }
         }
     }
 

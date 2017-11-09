@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.provider.BaseColumns;
 import android.provider.MediaStore;
@@ -36,6 +37,8 @@ import java.util.ArrayList;
 
 public class MainScreen extends SimpleActivity {
     private String m_Text;
+    private String session_key;
+    private int default_song_amount;
     private Context context = this;
     private ImageView fireball;
     private DatabaseReference database;
@@ -47,6 +50,10 @@ public class MainScreen extends SimpleActivity {
 
         ActivityCompat.requestPermissions(MainScreen.this,
                 new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+        SharedPreferences pref = getPreferences(MODE_PRIVATE);
+        session_key = pref.getString("sk", "null");
+        default_song_amount = pref.getInt("dsa", 10);
+        createSession("dsadsa");
     }
 
 
@@ -124,7 +131,7 @@ public class MainScreen extends SimpleActivity {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
                     if (!(snapshot.exists())) {
-                        new firebaseSongSelection(context, database, m_Text).execute();
+                        new firebaseSongSelection(context, database, m_Text, session_key, default_song_amount).execute();
                         // ADD LOADING ANIMATION
                     } else {
                         Toast.makeText(context, "Session ID is already in use, please use another ID.", Toast.LENGTH_LONG).show();
