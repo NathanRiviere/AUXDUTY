@@ -44,25 +44,11 @@ public class MainScreen extends SimpleActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
-        fireball = (ImageView) findViewById(R.id.fireball);
-        thread = new Thread() {
-            @Override
-            public void run() {
-                RotateAnimation rotate = new RotateAnimation(0, 360000, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                rotate.setDuration(3000000);
-                rotate.setInterpolator(new LinearInterpolator());
-                fireball.startAnimation(rotate);
-            }
-        };
-        thread.start();
+
         ActivityCompat.requestPermissions(MainScreen.this,
                 new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-        }
+    }
 
-     /*   RotateAnimation rotate = new RotateAnimation(0, 360000, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        rotate.setDuration(3000000);
-        rotate.setInterpolator(new LinearInterpolator());
-        fireball.startAnimation(rotate); */
 
     public void startSessionClicked(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

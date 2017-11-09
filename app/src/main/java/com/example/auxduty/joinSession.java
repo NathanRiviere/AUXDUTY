@@ -249,6 +249,7 @@ public class joinSession extends AppCompatActivity {
                     songFound = false;
                     DatabaseReference db = FirebaseDatabase.getInstance().getReference("Sessions/" + ID + "/Chosen songs");
                     db.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.N)
                         @Override
                         public void onDataChange(DataSnapshot snapshot) {
                             for (DataSnapshot deck : snapshot.getChildren()) {
