@@ -31,6 +31,7 @@ public class playlistAdapter extends ArrayAdapter<songInfo> {
         inflate = false;
         playing = 0;
     }
+    // comment
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         songInfo song = getItem(position);
