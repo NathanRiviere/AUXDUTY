@@ -41,6 +41,7 @@ public class joinSession extends AppCompatActivity {
     private ListView list;
     private ArrayList<Integer> starArray;
     private ArrayList<Integer> checkArray;
+    private ArrayList<Integer> fireballArray;
     private String ID;
     private boolean isHost;
     private ArrayList<songInfo> playlist;
@@ -48,7 +49,10 @@ public class joinSession extends AppCompatActivity {
     private ValueEventListener evl;
     private DatabaseReference listen;
     private boolean passengerFinished;
-
+    private int _fireballCount;
+    private int _starCount;
+    private int _checkCount;
+    private int playlistSize;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,17 +60,45 @@ public class joinSession extends AppCompatActivity {
         passengerFinished = false;
         mContext = this;
         changeListener = 0;
+        playlistSize = getIntent().getIntExtra("dsa", 10);
+        switch(playlistSize){
+            case 5:
+                fireballCount = 1;
+                starCount = 1;
+                checkCount = 3;
+                break;
+            case 10:
+                fireballCount = 1;
+                starCount = 3;
+                checkCount = 6;
+                break;
+            case 15:
+                fireballCount = 2;
+                starCount = 5;
+                checkCount = 8;
+                break;
+            case 20:
+                fireballCount = 2;
+                starCount = 8;
+                checkCount = 10;
+                break;
+        }
+
         fireballPos = -1;
-        fireballCount = 1;
-        starCount = 3;
-        checkCount = 6;
+
+        _fireballCount = fireballCount;
+        _starCount = starCount;
+        _checkCount = checkCount;
+
         arr = new ArrayList<songInfo>();
         tvFire = (TextView) findViewById(R.id.fireball_count);
         tvStar = (TextView) findViewById(R.id.star_count);
         tvCheck = (TextView) findViewById(R.id.check_count);
         starArray = new ArrayList<Integer>();
         checkArray = new ArrayList<Integer>();
+        fireballArray = new ArrayList<Integer>();
         playlist = new ArrayList<>();
+
         final Intent intent = getIntent();
         ID = intent.getStringExtra("SessionId");
         isHost = intent.getBooleanExtra("isHost", false);
@@ -115,6 +147,33 @@ public class joinSession extends AppCompatActivity {
                     public void onClick(View v) {
                         int Pos = Integer.parseInt((String) v.getTag(R.id.fireball));
                         int topPos = Integer.parseInt((String) list.getChildAt(0).findViewById(R.id.fireball).getTag(R.id.fireball));
+                        if (adapter.selected.containsKey(Pos) && adapter.selected.get(Pos).equals("Orange")) {
+                            View mView = list.getChildAt(Pos - topPos);
+                            mView.setBackgroundColor(Color.parseColor("#ffffff"));
+                            adapter.selected.remove(Pos);
+                            fireballCount++;
+                            tvFire.setText("" + fireballCount);
+                            fireballArray.remove(fireballArray.indexOf(Pos));
+                        } else if (!(adapter.selected.containsKey(Pos))) {
+                            if (fireballCount > 0) {
+                                View mView = list.getChildAt(Pos - topPos);
+                                mView.setBackgroundColor(Color.parseColor("#ffa500"));
+                                adapter.selected.put(Pos, "Orange");
+                                fireballCount--;
+                                tvFire.setText("" + fireballCount);
+                                fireballArray.add(Pos);
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Remove a lit song first.", Toast.LENGTH_LONG);
+                            }
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Remove selection first.", Toast.LENGTH_LONG);
+                        }
+                    }
+                };
+           /*         @Override
+                    public void onClick(View v) {
+                        int Pos = Integer.parseInt((String) v.getTag(R.id.fireball));
+                        int topPos = Integer.parseInt((String) list.getChildAt(0).findViewById(R.id.fireball).getTag(R.id.fireball));
                         View mRow = list.getChildAt(Pos - topPos);
                         if (adapter.selected.containsKey(Pos) && adapter.selected.get(Pos).equals("Orange")) {
                             mRow.setBackgroundColor(Color.parseColor("#ffffff"));
@@ -136,7 +195,7 @@ public class joinSession extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Remove a Lit song first.", Toast.LENGTH_LONG);
                         }
                     }
-                };
+                }; */
 
                 View.OnClickListener mStarListener = new View.OnClickListener() {
                     @Override
@@ -211,15 +270,20 @@ public class joinSession extends AppCompatActivity {
         songInfo fireSong = null;
         ArrayList<songInfo> checkSongs = null;
         ArrayList<songInfo> starSongs = null;
+        ArrayList<songInfo> fireSongs = null;
         DatabaseReference db = FirebaseDatabase.getInstance().getReference("Sessions/" + ID + "/Chosen songs");
-        if (checkCount != 6) {
+        if (checkCount != _checkCount) {
             checkSongs = getSongs(checkArray, 10);
         }
-        if (starCount != 3) {
+        if (starCount != _starCount) {
             starSongs = getSongs(starArray, 20);
         }
-        if (fireballCount != 1) {
-            String songName = arr.get(fireballPos).songName;
+        if (fireballCount != _fireballCount) {
+            fireSongs = getSongs(fireballArray, 30);
+
+
+
+            /* String songName = arr.get(fireballPos).songName;
             String artistName = arr.get(fireballPos).artist;
             for (songInfo s : arr) {
                 if (s.songName.equals(songName) && s.artist.equals(artistName)) {
@@ -227,7 +291,7 @@ public class joinSession extends AppCompatActivity {
                     fireSong.priority = 30;
                     break;
                 }
-            }
+            } */
         }
         ArrayList<songInfo> sendToServer = new ArrayList<>();
         if (checkSongs != null) {
@@ -236,8 +300,8 @@ public class joinSession extends AppCompatActivity {
         if (starSongs != null) {
             sendToServer.addAll(starSongs);
         }
-        if (fireSong != null) {
-            sendToServer.add(fireSong);
+        if (fireSongs != null) {
+            sendToServer.addAll(fireSongs);
         }
         String key = db.push().getKey();
         db.child(key).setValue(sendToServer);
@@ -281,9 +345,7 @@ public class joinSession extends AppCompatActivity {
                             mySort(playlist);
                             ArrayList<songInfo> litPlaylist = new ArrayList<songInfo>();
                             int length = playlist.size();
-                            /**********************************************************************/
-                            /* TODO ADD CUSTOMIBILITY ON NEXT LINE FOR DIFFERENT SIZE PLAYLISTS   */
-                            for (int i = 0; i < length && i < 10; i++) {
+                            for (int i = 0; i < length && i < playlistSize; i++) {
                                 litPlaylist.add(playlist.get(i));
                             }
                             Intent i = new Intent(getApplicationContext(), playlist.class);

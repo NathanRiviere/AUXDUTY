@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,23 +29,25 @@ public class playlistAdapter extends ArrayAdapter<songInfo> {
         super(context, resource, objects);
         _cb = cb;
         inflate = false;
-        playing = -1;
+        playing = 0;
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         songInfo song = getItem(position);
+        Log.i("pos", "" + position);
         if(convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.playlist_display, parent, false);
         }
         TextView tvArtist = (TextView) convertView.findViewById(R.id.artistname);
         TextView tvSong = (TextView) convertView.findViewById(R.id.songname);
         tvArtist.setText(song.artist);
-        if(position == playing) {
-            convertView.setBackgroundColor(Color.parseColor("#ffa500"));
-        }
         tvSong.setText(song.songName);
-      //  _cb.call(position, convertView, inflate);
-        inflate = false;
+        if(position == playing) {
+            Log.i("info", "song: " + tvSong.getText() + " position: " + position + " playing: " + playing);
+            convertView.setBackgroundColor(Color.parseColor("#ffa500"));
+        } else {
+            convertView.setBackgroundColor(Color.parseColor("#ffffff"));
+        }
         return convertView;
     }
 
