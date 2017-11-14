@@ -111,17 +111,14 @@ public class playlist extends AppCompatActivity {
         if(len == 0) { return; }
         int bot = lv.getLastVisiblePosition();
         int top = lv.getFirstVisiblePosition();
-        Log.i("color", "bot: " + bot + " top: " + top);
         ++currIndex;
         if(currIndex < len) {
             player.get(currIndex - 1).pause();
             player.get(currIndex).seekTo(0);
             player.get(currIndex).start();
             adapter.playing++;
-            Log.i("color", "currIndex: " + (currIndex));
             if((currIndex - 1 >= top) && (currIndex - 1 <= bot)) {
                 lv.getChildAt(currIndex - 1 - top).setBackgroundColor(Color.parseColor("#ffffff"));
-                Log.i("color", "currIndex - 1 - top: " + (currIndex - 1 -top));
             }
             if(currIndex >= top && currIndex <= bot) {
                 lv.getChildAt(currIndex - top).setBackgroundColor(Color.parseColor("#ffa500"));
@@ -171,9 +168,18 @@ public class playlist extends AppCompatActivity {
             startActivity(intent);
         } else {
             player.get(currIndex).pause();
+            for(MediaPlayer m : player) {
+                m.release();
+            }
             player.clear();
             display.clear();
             positions.clear();
+            this.adapter.clear();
+            this.currIndex = 0;
+            this.lv = null;
+            this.view = null;
+            this.len = 0;
+            songPostion = null;
             Intent intent = new Intent(this, MainScreen.class);
             startActivity(intent);
         }

@@ -94,6 +94,10 @@ public class joinSession extends AppCompatActivity {
         tvFire = (TextView) findViewById(R.id.fireball_count);
         tvStar = (TextView) findViewById(R.id.star_count);
         tvCheck = (TextView) findViewById(R.id.check_count);
+        tvFire.setText("" + fireballCount);
+        tvStar.setText("" + starCount);
+        tvCheck.setText("" + checkCount);
+
         starArray = new ArrayList<Integer>();
         checkArray = new ArrayList<Integer>();
         fireballArray = new ArrayList<Integer>();
