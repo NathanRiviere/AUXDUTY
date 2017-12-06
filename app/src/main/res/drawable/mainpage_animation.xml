@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false">
+    <item android:drawable="@drawable/fire_background_one" android:duration="32" />
+    <item android:drawable="@drawable/fire_background_two" android:duration="32" />
+    <item android:drawable="@drawable/fire_background_three" android:duration="32" />
+    <item android:drawable="@drawable/fire_background_four" android:duration="32" />
+    <item android:drawable="@drawable/fire_background_five" android:duration="32" />
+    <item android:drawable="@drawable/fire_background_six" android:duration="32" />
+    <item android:drawable="@drawable/fire_background_seven" android:duration="32" />
+    <item android:drawable="@drawable/fire_background_eight" android:duration="32" />
+    <item android:drawable="@drawable/fire_background_nine" android:duration="32" />
+    <item android:drawable="@drawable/fire_background_ten" android:duration="32" />
+    <item android:drawable="@drawable/fire_background_eleven" android:duration="32" />
+    <item android:drawable="@drawable/fire_background_twelve" android:duration="32" />
+    <item android:drawable="@drawable/fire_background_thirteen" android:duration="32" />
+    <item android:drawable="@drawable/fire_background_fourteen" android:duration="32" />
+    <item android:drawable="@drawable/fire_background_fifteen" android:duration="32" />
+    <item android:drawable="@drawable/fire_background_sixteen" android:duration="32" />
+</animation-list>

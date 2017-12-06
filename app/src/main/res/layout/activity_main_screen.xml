@@ -7,56 +7,35 @@
     tools:context="com.example.auxduty.MainScreen"
     tools:ignore="ExtraText">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/imageView3"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/imageView3"
-        android:layout_marginEnd="70dp"
-        android:layout_marginRight="70dp"
-        android:scaleX="0.94"
-        android:scaleY="0.94"
-        android:src="@drawable/two_left"></ImageView>
 
-    <ImageView
-        android:id="@+id/imageView2"
+    <ImageView android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="49dp"
-        android:layout_marginStart="49dp"
-        android:scaleX="0.35"
-        android:scaleY="0.35"
-        android:src="@drawable/two_right" />
+        android:id="@+id/fireImage">
+</ImageView>
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imageView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="60dp"
-        android:layout_marginLeft="61dp"
-        android:layout_marginStart="61dp"
-        android:scaleX="0.50"
-        android:scaleY="0.50"
-        android:src="@drawable/host_bare" />
 
-    <ImageView
+    <ImageButton
+        android:id="@+id/imageButton4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/imageView2"
-        android:layout_alignRight="@+id/imageView2"
-        android:layout_alignTop="@+id/imageView3"
-        android:layout_marginEnd="57dp"
-        android:layout_marginRight="57dp"
-        android:rotation="180"
-        android:scaleX="0.4"
-        android:scaleY="0.4"
-        android:src="@drawable/one_up" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="83dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@null"
+        android:onClick="joinSessionClicked"
+        android:src="@drawable/join_session_drawing"></ImageButton>
+
+    <ImageButton
+        android:id="@+id/imageButton5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imageButton4"
+        android:layout_marginLeft="22dp"
+        android:layout_marginStart="22dp"
+        android:background="@null"
+        android:onClick="startSessionClicked"
+        android:src="@drawable/start_session_drawing"></ImageButton>
 </RelativeLayout>

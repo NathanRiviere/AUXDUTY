@@ -7,8 +7,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.AnimationDrawable;
+import android.os.Build;
 import android.provider.BaseColumns;
 import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
@@ -43,19 +46,28 @@ public class MainScreen extends SimpleActivity {
     private ImageView fireball;
     private DatabaseReference database;
     private Thread thread;
+    AnimationDrawable fire_animation;
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
-
+        ImageView fireImage = (ImageView) findViewById(R.id.fireImage);
+        fireImage.setBackgroundResource(R.drawable.mainpage_animation);
+        fire_animation = (AnimationDrawable) fireImage.getBackground();
         ActivityCompat.requestPermissions(MainScreen.this,
                 new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         SharedPreferences pref = getPreferences(MODE_PRIVATE);
         session_key = pref.getString("sk", "null");
         default_song_amount = pref.getInt("dsa", 10);
-        createSession("dsadsa");
+       // createSession("dsadsa");
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus)
+    {
+        fire_animation.start();
+    }
 
     public void startSessionClicked(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
