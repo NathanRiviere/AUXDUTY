@@ -136,7 +136,48 @@ public class joinSession extends AppCompatActivity {
             };
             listen.addValueEventListener(evl);
         }
+        if(!isHost) {
+            db.getParent().child("song amount").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Log.i("tag", dataSnapshot.getKey());
+                   long pSize = (long) dataSnapshot.getValue();
+                    switch(playlistSize){
+                        case 5:
+                            fireballCount = 1;
+                            starCount = 1;
+                            checkCount = 3;
+                            break;
+                        case 10:
+                            fireballCount = 1;
+                            starCount = 3;
+                            checkCount = 6;
+                            break;
+                        case 15:
+                            fireballCount = 2;
+                            starCount = 5;
+                            checkCount = 8;
+                            break;
+                        case 20:
+                            fireballCount = 2;
+                            starCount = 8;
+                            checkCount = 10;
+                            break;
+                    }
+                    _fireballCount = fireballCount;
+                    _starCount = starCount;
+                    _checkCount = checkCount;
+                    tvFire.setText("" + fireballCount);
+                    tvStar.setText("" + starCount);
+                    tvCheck.setText("" + checkCount);
+                }
 
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
         db.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -145,6 +186,7 @@ public class joinSession extends AppCompatActivity {
                     Log.i("songs", song.songName);
                     arr.add(song);
                 }
+                // TODO
                 list = (ListView) findViewById(R.id.listJoin);
                 View.OnClickListener mFireListener = new View.OnClickListener() {
                     @Override

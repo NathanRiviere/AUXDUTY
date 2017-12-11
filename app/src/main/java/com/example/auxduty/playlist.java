@@ -19,6 +19,7 @@ import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.MediaController;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.example.auxduty.Adapters.playlistAdapter;
 import com.example.auxduty.data.musicDataContract;
@@ -38,7 +39,7 @@ public class playlist extends AppCompatActivity {
     int len;
     Integer songPostion;
     HashMap<Integer, Integer>positions;
-
+    TextView playingSong;
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class playlist extends AppCompatActivity {
         len = intent.getIntExtra("length", 0);
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         songPostion = new Integer(0);
-
+        playingSong = (TextView) findViewById(R.id.playingSong);
         for (int i = 0; i < len; i++) {
             songs.add(intent.getStringExtra("song name " + i));
         }
@@ -104,6 +105,7 @@ public class playlist extends AppCompatActivity {
         lv.setAdapter(adapter);
         currIndex = 0;
         if(len == 0) { return; }
+        playingSong.setText(display.get(currIndex).songName);
         player.get(currIndex).start();
     }
 
@@ -123,6 +125,7 @@ public class playlist extends AppCompatActivity {
             if(currIndex >= top && currIndex <= bot) {
                 lv.getChildAt(currIndex - top).setBackgroundColor(Color.parseColor("#ffa500"));
             }
+            playingSong.setText(display.get(currIndex).songName);
         } else {
             --currIndex;
         }
@@ -157,6 +160,7 @@ public class playlist extends AppCompatActivity {
             if(currIndex >= top && currIndex <= bot) {
                 lv.getChildAt(currIndex - top).setBackgroundColor(Color.parseColor("#ffa500"));
             }
+            playingSong.setText(display.get(currIndex).songName);
         } else {
             ++currIndex;
         }

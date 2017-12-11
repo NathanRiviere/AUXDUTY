@@ -143,7 +143,7 @@ public class MainScreen extends SimpleActivity {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
                     if (!(snapshot.exists())) {
-                        new firebaseSongSelection(context, database, m_Text, session_key, 20).execute();
+                        new firebaseSongSelection(context, database, m_Text, session_key, default_song_amount).execute();
                         // ADD LOADING ANIMATION
                     } else {
                         Toast.makeText(context, "Session ID is already in use, please use another ID.", Toast.LENGTH_LONG).show();

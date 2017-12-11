@@ -66,8 +66,9 @@
         android:id="@+id/playingSong"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
         android:textSize="15dp"
-        android:text="Currently Playing: RANDM SNOG NAME  - ASDSD "/>
+        android:text="Currently Playing:"/>
 
 
 </LinearLayout>

@@ -18,12 +18,12 @@
         android:id="@+id/imageButton4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="83dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
+        android:layout_above="@+id/imageButton6"
+        android:layout_marginBottom="22dp"
+        android:layout_marginLeft="31dp"
+        android:layout_marginStart="31dp"
+        android:layout_toEndOf="@+id/imageButton5"
+        android:layout_toRightOf="@+id/imageButton5"
         android:background="@null"
         android:onClick="joinSessionClicked"
         android:src="@drawable/join_session_drawing"></ImageButton>
@@ -38,4 +38,17 @@
         android:background="@null"
         android:onClick="startSessionClicked"
         android:src="@drawable/start_session_drawing"></ImageButton>
+
+    <ImageButton
+        android:id="@+id/imageButton6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/imageButton5"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/imageButton5"
+        android:layout_marginLeft="73dp"
+        android:layout_marginStart="73dp"
+        android:scaleX="0.90"
+        android:scaleY="0.90"
+        android:src="@drawable/settings_button" />
 </RelativeLayout>
