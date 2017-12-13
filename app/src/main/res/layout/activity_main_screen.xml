@@ -1,54 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_weight="10"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.auxduty.MainScreen"
     tools:ignore="ExtraText">
 
-
     <ImageView android:layout_height="wrap_content"
+        android:layout_weight="4"
         android:layout_width="wrap_content"
         android:id="@+id/fireImage">
-</ImageView>
+    </ImageView>
 
-
+    <LinearLayout
+        android:layout_marginTop="30dp"
+        android:layout_weight="0.5"
+        android:weightSum="10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
     <ImageButton
+        android:layout_weight="5"
         android:id="@+id/imageButton4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/imageButton6"
-        android:layout_marginBottom="22dp"
-        android:layout_marginLeft="31dp"
-        android:layout_marginStart="31dp"
-        android:layout_toEndOf="@+id/imageButton5"
-        android:layout_toRightOf="@+id/imageButton5"
         android:background="@null"
         android:onClick="joinSessionClicked"
         android:src="@drawable/join_session_drawing"></ImageButton>
 
     <ImageButton
+        android:layout_weight="5"
         android:id="@+id/imageButton5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/imageButton4"
-        android:layout_marginLeft="22dp"
-        android:layout_marginStart="22dp"
         android:background="@null"
         android:onClick="startSessionClicked"
         android:src="@drawable/start_session_drawing"></ImageButton>
+    </LinearLayout>
 
     <ImageButton
+        android:layout_weight="0.5"
+        android:layout_gravity="center"
         android:id="@+id/imageButton6"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/imageButton5"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/imageButton5"
-        android:layout_marginLeft="73dp"
-        android:layout_marginStart="73dp"
-        android:scaleX="0.90"
         android:scaleY="0.90"
+        android:scaleX="0.9"
+        android:onClick="settingsClicked"
+        android:layout_height="wrap_content"
+        android:background="@null"
         android:src="@drawable/settings_button" />
-</RelativeLayout>
+</LinearLayout>

@@ -46,6 +46,7 @@ public class MainScreen extends SimpleActivity {
     private ImageView fireball;
     private DatabaseReference database;
     private Thread thread;
+    private SharedPreferences pref;
     AnimationDrawable fire_animation;
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -57,10 +58,9 @@ public class MainScreen extends SimpleActivity {
         fire_animation = (AnimationDrawable) fireImage.getBackground();
         ActivityCompat.requestPermissions(MainScreen.this,
                 new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-        SharedPreferences pref = getPreferences(MODE_PRIVATE);
+        pref = getPreferences(MODE_PRIVATE);
         session_key = pref.getString("sk", "null");
         default_song_amount = pref.getInt("dsa", 10);
-       // createSession("dsadsa");
     }
 
     @Override
@@ -71,7 +71,7 @@ public class MainScreen extends SimpleActivity {
 
     public void startSessionClicked(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Enter Session ID");
+        builder.setTitle("Enter Session Key");
 
         final EditText input = new EditText(this);
         builder.setView(input);
@@ -94,7 +94,7 @@ public class MainScreen extends SimpleActivity {
 
     public void joinSessionClicked(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Enter Active Session ID");
+        builder.setTitle("Enter Active Session Key");
 
         final EditText input = new EditText(this);
         builder.setView(input);
@@ -172,4 +172,25 @@ public class MainScreen extends SimpleActivity {
             }
         }
     }
+
+    public void settingsClicked(View view) {
+        Intent settings_intent = new Intent(context, settingsView.class);
+        settings_intent.putExtra("session_key", pref.getString("sk", "null"));
+        settings_intent.putExtra("playlist_size", pref.getInt("dsa", 10));
+        startActivityForResult(settings_intent, 0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(data.getStringExtra("retKey") == null) {
+            Log.i("fuck", "return key is: " + data.getStringExtra("retKey"));
+        }
+        Log.i("fuck", "return playlist size" + data.getIntExtra("playlist_size", 21) );
+        pref.edit().putString("sk", data.getStringExtra("retKey")).commit();
+        pref.edit().putInt("dsa", data.getIntExtra("playlist_size", 10)).commit();
+        Log.i("fuck", "ending key is: " + pref.getString("sk", "fuck"));
+        Log.i("fuck", "ending playlist size is: " + pref.getInt("dsa", 100) );
+    }
 }
+

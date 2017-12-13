@@ -29,6 +29,7 @@
         <activity android:name=".playlist"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".settingsView" />
     </application>
 
 </manifest>
