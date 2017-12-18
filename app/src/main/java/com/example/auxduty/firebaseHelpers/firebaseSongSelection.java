@@ -78,6 +78,7 @@ public class firebaseSongSelection extends AsyncTask<Void, Void, ArrayList<songI
     protected void onPostExecute(ArrayList<songInfo> result) {
         db.child("Sessions/" + _id + "/Host songs").setValue(result);
         db.child("Sessions/" + _id + "/song amount").setValue(_song_amount);
+        db.child("Sessions/" + _id + "/done").setValue("false");
         Intent intent = new Intent(context, joinSession.class);
         intent.putExtra("SessionId", _id);
         intent.putExtra("isHost", true);

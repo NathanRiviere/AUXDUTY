@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Parcelable;
 import android.support.annotation.RequiresApi;
+import android.support.annotation.UiThread;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,38 +31,70 @@ import java.util.Comparator;
 
 @SuppressWarnings("Since15")
 public class joinSession extends AppCompatActivity {
-
-    private ArrayList<songInfo> arr;
     private Context mContext;
-    private boolean fireSet, starSet, checkSet = false;
-    private int fireballCount, starCount, checkCount, fireballPos;
-    private TextView tvFire, tvStar, tvCheck;
-    private songAdapter adapter;
-    private boolean songFound;
     private ListView list;
+    private String ID;
+    private songAdapter adapter;
+
+    /*          ARRAYS            */
+    private ArrayList<songInfo> arr;
     private ArrayList<Integer> starArray;
     private ArrayList<Integer> checkArray;
     private ArrayList<Integer> fireballArray;
-    private String ID;
-    private boolean isHost;
     private ArrayList<songInfo> playlist;
-    private int changeListener;
-    private ValueEventListener evl;
-    private DatabaseReference listen;
+    /*********************************************/
+
+    /*          VIEWS            */
+    private TextView tvFire, tvStar, tvCheck;
+
+    /*********************************************/
+
+
+        /*          BOOLEANS            */
+    private boolean fireSet, starSet, checkSet = false;
     private boolean passengerFinished;
+    private boolean songFound;
+    private boolean isHost;
+    private boolean backPressed = false;
+    private boolean passengerFlag = false;
+    /*********************************************/
+
+
+        /*          INTEGERS            */
+    private int changeListener;
     private int _fireballCount;
     private int _starCount;
     private int _checkCount;
     private int playlistSize;
+    private int fireballCount, starCount, checkCount, fireballPos;
+    /*********************************************/
+
+    /*          RESOURCES TO BE FREED            */
+    private ValueEventListener passengerListener;
+    private DatabaseReference db;
+    private ValueEventListener evl;
+    private DatabaseReference listen;
+    private ValueEventListener hostCompleteListener;
+    /*********************************************/
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Use run activity to reload state
+        runActivity();
+    }
+
+    private void runActivity() {
         setContentView(R.layout.activity_join_session);
+
         passengerFinished = false;
         mContext = this;
         changeListener = 0;
         playlistSize = getIntent().getIntExtra("dsa", 10);
-        switch(playlistSize){
+
+        switch (playlistSize) {
             case 5:
                 fireballCount = 1;
                 starCount = 1;
@@ -106,8 +139,8 @@ public class joinSession extends AppCompatActivity {
         final Intent intent = getIntent();
         ID = intent.getStringExtra("SessionId");
         isHost = intent.getBooleanExtra("isHost", false);
-        DatabaseReference db = FirebaseDatabase.getInstance().getReference("Sessions/" + ID + "/Host songs");
-        if(!isHost) {
+        db = FirebaseDatabase.getInstance().getReference("Sessions/" + ID + "/Host songs");
+        if (!isHost) {
             listen = db.getParent().child("Playlist");
             evl = new ValueEventListener() {
                 @Override
@@ -115,7 +148,7 @@ public class joinSession extends AppCompatActivity {
                     if (changeListener == 0) {
                         changeListener++;
                     } else {
-                        if(passengerFinished) {
+                        if (passengerFinished) {
                             Intent in = new Intent(getApplicationContext(), passengarPlaylist.class);
                             in.putExtra("ID", ID);
                             changeListener = 0;
@@ -136,13 +169,18 @@ public class joinSession extends AppCompatActivity {
             };
             listen.addValueEventListener(evl);
         }
-        if(!isHost) {
+        if (!isHost) {
             db.getParent().child("song amount").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Log.i("tag", dataSnapshot.getKey());
-                   long pSize = (long) dataSnapshot.getValue();
-                    switch(playlistSize){
+                    Long pSize = (Long) dataSnapshot.getValue();
+                    Log.i("tag", "pSize is " + pSize);
+                    String s = "" + pSize;
+                    Log.i("tag", "s is " + s);
+                    Integer i = Integer.parseInt(s);
+                    Log.i("tag", "i is " + i);
+                    switch (i) {
                         case 5:
                             fireballCount = 1;
                             starCount = 1;
@@ -216,32 +254,6 @@ public class joinSession extends AppCompatActivity {
                         }
                     }
                 };
-           /*         @Override
-                    public void onClick(View v) {
-                        int Pos = Integer.parseInt((String) v.getTag(R.id.fireball));
-                        int topPos = Integer.parseInt((String) list.getChildAt(0).findViewById(R.id.fireball).getTag(R.id.fireball));
-                        View mRow = list.getChildAt(Pos - topPos);
-                        if (adapter.selected.containsKey(Pos) && adapter.selected.get(Pos).equals("Orange")) {
-                            mRow.setBackgroundColor(Color.parseColor("#ffffff"));
-                            adapter.selected.remove(Pos);
-                            fireballCount++;
-                            fireballPos = -1;
-                            tvFire.setText("" + fireballCount);
-                        } else if (fireballCount == 1) {
-                            if (adapter.selected.containsKey(Pos)) {
-                                Toast.makeText(getApplicationContext(), "Remove selection first.", Toast.LENGTH_LONG);
-                            } else {
-                                mRow.setBackgroundColor(Color.parseColor("#ffa500"));
-                                adapter.selected.put(Pos, "Orange");
-                                fireballCount--;
-                                fireballPos = Pos;
-                                tvFire.setText("" + fireballCount);
-                            }
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Remove a Lit song first.", Toast.LENGTH_LONG);
-                        }
-                    }
-                }; */
 
                 View.OnClickListener mStarListener = new View.OnClickListener() {
                     @Override
@@ -310,6 +322,24 @@ public class joinSession extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+        if (!isHost) {
+            passengerListener = db.getParent().child("done").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(passengerFlag) {
+                        Intent das = new Intent(getApplicationContext(), MainScreen.class);
+                        startActivity(das);
+                    } else {
+                        passengerFlag = true;
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 
     public void finishClicked(View view) {
@@ -327,17 +357,6 @@ public class joinSession extends AppCompatActivity {
         if (fireballCount != _fireballCount) {
             fireSongs = getSongs(fireballArray, 30);
 
-
-
-            /* String songName = arr.get(fireballPos).songName;
-            String artistName = arr.get(fireballPos).artist;
-            for (songInfo s : arr) {
-                if (s.songName.equals(songName) && s.artist.equals(artistName)) {
-                    fireSong = s;
-                    fireSong.priority = 30;
-                    break;
-                }
-            } */
         }
         ArrayList<songInfo> sendToServer = new ArrayList<>();
         if (checkSongs != null) {
@@ -370,10 +389,10 @@ public class joinSession extends AppCompatActivity {
                                             s.priority += song.priority + 15;
                                             songFound = true;
                                             Log.i("pri", "Song match found for " + s.songName + " and " + song.songName);
-                                        } else if (s.artist.equals(song.artist) && s.artist != "<unknown>") {
+                                        } else if (s.artist.equals(song.artist) && (!s.artist.equals("<unknown>"))) {
                                             s.priority += 10;
                                             Log.i("pri", "artist match found for " + s.songName + " and " + song.songName);
-                                        } else if (s.genre.equals(song.genre) && s.genre != "null") {
+                                        } else if (s.genre.equals(song.genre) && (!s.genre.equals("null"))) {
                                             s.priority += 5;
                                             Log.i("pri", "genre match found for " + s.songName + " and " + song.songName);
                                         } else if (s.year == song.year && s.year != 0) {
@@ -403,6 +422,7 @@ public class joinSession extends AppCompatActivity {
                             }
                             i.putExtra("length", k);
                             DatabaseReference grab = FirebaseDatabase.getInstance().getReference("Sessions/" + ID + "/Playlist");
+                            backPressed = true;
                             grab.setValue(litPlaylist);
                             grab.getParent().removeValue();
                             startActivity(i);
@@ -418,7 +438,7 @@ public class joinSession extends AppCompatActivity {
         } else {
             passengerFinished = true;
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Waiting for the host to end voting.");
+            builder.setTitle("Waiting for the host to end voting." + System.getProperty("line.separator"));
             builder.show();
         }
     }
@@ -442,26 +462,52 @@ public class joinSession extends AppCompatActivity {
         for (Integer i : intArray) {
             arr.get(i).priority = pri;
             temp.add(arr.get(i));
-        } /*
-            String songName = adapter.objects.get(adapter.objects.indexOf(i)).songName;
-            String artistName = adapter.objects.get(adapter.objects.indexOf(i)).artist;
-            for (songInfo s : arr) {
-                if (s.songName == songName && s.artist == artistName) {
-                    s.priority = pri;
-                    temp.add(s);
-                    break;
-                }
-            }
-        }             */
+        }
         return temp;
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i("dest", "in onDestroy");
+        if(isHost && !backPressed) {
+            DatabaseReference grab = FirebaseDatabase.getInstance().getReference("Sessions/" + ID);
+            grab.child("done").setValue("true");
+        //    grab.removeValue();
+        } else if(!isHost){
+            db.getParent().child("done").removeEventListener(passengerListener);
+            listen.removeEventListener(evl);
+            finish();
+        } else {}
+        Log.i("dest", "onDestroy complete");
+    }
+
+    @Override
+    protected void onRestart() {
+        runActivity();
+        super.onRestart();
+    }
+
+    @Override
     protected void onDestroy() {
-        if(isHost) {
-            DatabaseReference grab = FirebaseDatabase.getInstance().getReference("Sessions/" + ID + "/Playlist");
-            grab.getParent().removeValue();
-        }
         super.onDestroy();
+        if(!isHost) {
+            db.getParent().child("done").removeEventListener(passengerListener);
+            listen.removeEventListener(evl);
+
+        }
+    }
+
+    public void back_to_main(View view) {
+        if(isHost){
+            db.getParent().child("done").setValue("true");
+            db.getParent().removeValue();
+            backPressed = true;
+            finish();
+            //     Intent _done = new Intent(this, MainScreen.class);
+       //     startActivity(_done);
+        } else {
+            onStop();
+        }
     }
 }

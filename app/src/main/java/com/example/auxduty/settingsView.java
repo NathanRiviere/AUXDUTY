@@ -101,16 +101,18 @@ public class settingsView extends Activity {
     public void back_clicked(View view) {
         Editable temp = new Editable.Factory().newEditable("");
         Intent retIntent = new Intent(this, MainScreen.class);
-        if(et.getText().equals(temp)) {
-            if(et.getHint().equals("Enter Default Session Key")) { et.setText("null");}
-            else {
-                et.setText(et.getHint());
+
+        if(et.getText().toString().equals(temp.toString())) {
+            if(et.getHint().equals("Enter Default Session Key")) {
+                retIntent.putExtra("retKey", "null");
             }
+            else {
+                retIntent.putExtra("retKey", et.getHint());
+            }
+        } else {
+            retIntent.putExtra("retKey", et.getText().toString());
         }
-        String s = et.getText().toString();
-        Log.i("fuck", "setting key is: " + et.getText());
-        Log.i("fuck", "setting playlist size" + _playlistSize );
-        retIntent.putExtra("retKey", s);
+
         retIntent.putExtra("playlist_size", _playlistSize);
         setResult(RESULT_OK, retIntent);
         finish();
@@ -120,5 +122,10 @@ public class settingsView extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         back_clicked(null);
+    }
+
+    public void clearKeyPressed(View view) {
+        et.setText(new Editable.Factory().newEditable(""));
+        et.setHint("Enter Default Session Key");
     }
 }

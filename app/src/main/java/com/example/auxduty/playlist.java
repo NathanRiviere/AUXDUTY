@@ -40,6 +40,10 @@ public class playlist extends AppCompatActivity {
     Integer songPostion;
     HashMap<Integer, Integer>positions;
     TextView playingSong;
+    Boolean finished = false;
+
+    /*            LISTENERS FOR FREEING               */
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +82,10 @@ public class playlist extends AppCompatActivity {
             if (cursor.moveToFirst()) {
                 do {
                     song_name = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME));
+                    if (song_name.endsWith(".mp3") | song_name.endsWith(".MID") | song_name.endsWith(".MP3") | song_name.endsWith(".mid") |
+                            song_name.endsWith(".M4A") | song_name.endsWith(".m4a") | song_name.endsWith(".AIF") | song_name.endsWith(".aif")) {
+                        song_name = song_name.substring(0, song_name.length() - 4);
+                    }
                     artist_name = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.ARTIST));
                     fullpath = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));
                     songInfo temp = new songInfo(artist_name, song_name);
@@ -86,11 +94,7 @@ public class playlist extends AppCompatActivity {
                     tempMedia.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                         @Override
                         public void onCompletion(MediaPlayer mp) {
-                            currIndex++;
-                            if(currIndex == len)  { Toast.makeText(getApplicationContext(), "End of playlist", Toast.LENGTH_LONG).show(); }
-                            else {
-                                player.get(currIndex).start();
-                            }
+                            nextClick(null);
                         }
                     });
                     player.add(tempMedia);
@@ -167,7 +171,7 @@ public class playlist extends AppCompatActivity {
     }
 
     public void endSeshClicked(View view) {
-        if (len == 0) {
+        if (len == 0 && !finished) {
             Intent intent = new Intent(this, MainScreen.class);
             startActivity(intent);
         } else {
@@ -184,14 +188,11 @@ public class playlist extends AppCompatActivity {
             this.view = null;
             this.len = 0;
             songPostion = null;
-            Intent intent = new Intent(this, MainScreen.class);
-            startActivity(intent);
+            if(!finished) {
+                Intent intent = new Intent(this, MainScreen.class);
+                startActivity(intent);
+            }
         }
-    }
-
-    private void makeOrange(int Opos, int Wpos) {
-        lv.getChildAt(Opos).setBackgroundColor(Color.parseColor("#ffa500"));
-        lv.getChildAt(Wpos).setBackgroundColor(Color.parseColor("#ffffff"));
     }
 
     @Override

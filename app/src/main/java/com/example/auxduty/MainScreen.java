@@ -59,8 +59,6 @@ public class MainScreen extends SimpleActivity {
         ActivityCompat.requestPermissions(MainScreen.this,
                 new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         pref = getPreferences(MODE_PRIVATE);
-        session_key = pref.getString("sk", "null");
-        default_song_amount = pref.getInt("dsa", 10);
     }
 
     @Override
@@ -70,26 +68,30 @@ public class MainScreen extends SimpleActivity {
     }
 
     public void startSessionClicked(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Enter Session Key");
+        if(pref.getString("sk", "null").equals("null")) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Enter Session Key");
 
-        final EditText input = new EditText(this);
-        builder.setView(input);
+            final EditText input = new EditText(this);
+            builder.setView(input);
 
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                m_Text = input.getText().toString();
-                createSession(m_Text);
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        builder.show();
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    m_Text = input.getText().toString();
+                    createSession(m_Text);
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            builder.show();
+        } else {
+            createSession(pref.getString("sk", "null"));
+        }
     }
 
     public void joinSessionClicked(View view) {
@@ -143,7 +145,7 @@ public class MainScreen extends SimpleActivity {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
                     if (!(snapshot.exists())) {
-                        new firebaseSongSelection(context, database, m_Text, session_key, default_song_amount).execute();
+                        new firebaseSongSelection(context, database, m_Text, session_key, pref.getInt("dsa", 10)).execute();
                         // ADD LOADING ANIMATION
                     } else {
                         Toast.makeText(context, "Session ID is already in use, please use another ID.", Toast.LENGTH_LONG).show();
@@ -183,14 +185,10 @@ public class MainScreen extends SimpleActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(data.getStringExtra("retKey") == null) {
-            Log.i("fuck", "return key is: " + data.getStringExtra("retKey"));
-        }
-        Log.i("fuck", "return playlist size" + data.getIntExtra("playlist_size", 21) );
+
         pref.edit().putString("sk", data.getStringExtra("retKey")).commit();
         pref.edit().putInt("dsa", data.getIntExtra("playlist_size", 10)).commit();
-        Log.i("fuck", "ending key is: " + pref.getString("sk", "fuck"));
-        Log.i("fuck", "ending playlist size is: " + pref.getInt("dsa", 100) );
+
     }
 }
 

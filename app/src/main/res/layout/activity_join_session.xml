@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/fireball_count"
-            android:text="1 :" />
+            android:text="0 :" />
 
         <ImageView
             android:layout_width="30dp"
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/star_count"
-            android:text="3 :" />
+            android:text="0 :" />
 
         <ImageView
             android:layout_width="38dp"
@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/check_count"
-            android:text="6 :" />
+            android:text="0 :" />
 
         <ImageView
             android:layout_width="40dp"
@@ -67,11 +67,23 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="10sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BACK"
+                android:layout_marginRight="20sp"
+                android:onClick="back_to_main"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:onClick="finishClicked"
         android:text="submit"/>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

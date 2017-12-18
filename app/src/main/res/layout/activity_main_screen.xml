@@ -22,6 +22,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+        <ImageButton
+            android:layout_weight="5"
+            android:id="@+id/imageButton5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:onClick="startSessionClicked"
+            android:src="@drawable/start_session_drawing"></ImageButton>
+
     <ImageButton
         android:layout_weight="5"
         android:id="@+id/imageButton4"
@@ -31,14 +40,6 @@
         android:onClick="joinSessionClicked"
         android:src="@drawable/join_session_drawing"></ImageButton>
 
-    <ImageButton
-        android:layout_weight="5"
-        android:id="@+id/imageButton5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:onClick="startSessionClicked"
-        android:src="@drawable/start_session_drawing"></ImageButton>
     </LinearLayout>
 
     <ImageButton
