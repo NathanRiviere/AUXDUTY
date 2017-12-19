@@ -29,4 +29,12 @@ public class songInfo {
         this.year = -1;
         this.priority = -1;
     }
-};
+
+    public songInfo(String artist, String songName, int priority) {
+        this.artist = artist;
+        this.songName = songName;
+        this.priority = priority;
+        this.year = -1;
+        this.genre = "null";
+    }
+}

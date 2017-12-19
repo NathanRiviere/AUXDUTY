@@ -10,17 +10,19 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="10">
         <TextView
+            android:layout_weight="5"
+            android:textSize="20sp"
             android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Playlist size"
-            android:textSize="30sp" />
+            android:text="Playlist size" />
 
-        <TextView
-            android:layout_weight="4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,6 +70,7 @@
         </Button>
             </LinearLayout>
         </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -89,7 +92,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_weight="2"
                 android:text="Default key"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
 
         <EditText
             android:layout_width="wrap_content"

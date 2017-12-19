@@ -69,6 +69,7 @@ public class MainScreen extends SimpleActivity {
 
     public void startSessionClicked(View view) {
         if(pref.getString("sk", "null").equals("null")) {
+            Log.i("defKey", "sk is null");
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Enter Session Key");
 
@@ -79,6 +80,10 @@ public class MainScreen extends SimpleActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     m_Text = input.getText().toString();
+                    if(m_Text.equals(".")) {
+                        Toast.makeText(context, ". Cannot be used as a key", Toast.LENGTH_LONG).show();
+                        return;
+                    }
                     createSession(m_Text);
                 }
             });
@@ -90,6 +95,7 @@ public class MainScreen extends SimpleActivity {
             });
             builder.show();
         } else {
+            Log.i("defKey", "sk is " + pref.getString("sk", "null"));
             createSession(pref.getString("sk", "null"));
         }
     }
@@ -139,13 +145,13 @@ public class MainScreen extends SimpleActivity {
 
     }
 
-    private void createSession(String m_text) {
+    private void createSession(final String m_text) {
         database = FirebaseDatabase.getInstance().getReference();
         database.child("Sessions/" + m_text).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
                     if (!(snapshot.exists())) {
-                        new firebaseSongSelection(context, database, m_Text, session_key, pref.getInt("dsa", 10)).execute();
+                        new firebaseSongSelection(context, database, m_text, session_key, pref.getInt("dsa", 10)).execute();
                         // ADD LOADING ANIMATION
                     } else {
                         Toast.makeText(context, "Session ID is already in use, please use another ID.", Toast.LENGTH_LONG).show();

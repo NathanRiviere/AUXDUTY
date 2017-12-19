@@ -57,6 +57,7 @@ public class joinSession extends AppCompatActivity {
     private boolean isHost;
     private boolean backPressed = false;
     private boolean passengerFlag = false;
+    private boolean destroyed = false;
     /*********************************************/
 
 
@@ -75,6 +76,8 @@ public class joinSession extends AppCompatActivity {
     private ValueEventListener evl;
     private DatabaseReference listen;
     private ValueEventListener hostCompleteListener;
+    private com.google.firebase.database.Query dbDone;
+
     /*********************************************/
 
 
@@ -140,6 +143,7 @@ public class joinSession extends AppCompatActivity {
         ID = intent.getStringExtra("SessionId");
         isHost = intent.getBooleanExtra("isHost", false);
         db = FirebaseDatabase.getInstance().getReference("Sessions/" + ID + "/Host songs");
+        dbDone = db.getParent().child("done");
         if (!isHost) {
             listen = db.getParent().child("Playlist");
             evl = new ValueEventListener() {
@@ -247,10 +251,10 @@ public class joinSession extends AppCompatActivity {
                                 tvFire.setText("" + fireballCount);
                                 fireballArray.add(Pos);
                             } else {
-                                Toast.makeText(getApplicationContext(), "Remove a lit song first.", Toast.LENGTH_LONG);
+                                Toast.makeText(getApplicationContext(), "Remove a lit song first.", Toast.LENGTH_LONG).show();
                             }
                         } else {
-                            Toast.makeText(getApplicationContext(), "Remove selection first.", Toast.LENGTH_LONG);
+                            Toast.makeText(getApplicationContext(), "Remove selection first.", Toast.LENGTH_LONG).show();
                         }
                     }
                 };
@@ -333,7 +337,6 @@ public class joinSession extends AppCompatActivity {
                         passengerFlag = true;
                     }
                 }
-
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
 
@@ -372,7 +375,7 @@ public class joinSession extends AppCompatActivity {
         db.child(key).setValue(sendToServer);
         if (isHost) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Wait for everyone to submit their picks then press ok.").setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            builder.setTitle("Choices submitted.").setPositiveButton("End Voting", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     // pull chosen songs from server, create playlist, post playlist to server
                     songFound = false;
@@ -391,12 +394,15 @@ public class joinSession extends AppCompatActivity {
                                             Log.i("pri", "Song match found for " + s.songName + " and " + song.songName);
                                         } else if (s.artist.equals(song.artist) && (!s.artist.equals("<unknown>"))) {
                                             s.priority += 10;
+                                            song.priority += 10;
                                             Log.i("pri", "artist match found for " + s.songName + " and " + song.songName);
                                         } else if (s.genre.equals(song.genre) && (!s.genre.equals("null"))) {
                                             s.priority += 5;
+                                            song.priority += 5;
                                             Log.i("pri", "genre match found for " + s.songName + " and " + song.songName);
                                         } else if (s.year == song.year && s.year != 0) {
                                             s.priority += 5;
+                                            song.priority += 5;
                                             Log.i("pri", "year match found for " + s.songName + " and " + song.songName);
                                         }
                                     }
@@ -412,19 +418,20 @@ public class joinSession extends AppCompatActivity {
                             int length = playlist.size();
                             for (int i = 0; i < length && i < playlistSize; i++) {
                                 litPlaylist.add(playlist.get(i));
+                                Log.i("sort", "spot " + i + " with song name " + playlist.get(i).songName + " and priority " + playlist.get(i).priority);
                             }
                             Intent i = new Intent(getApplicationContext(), playlist.class);
                             int k = 0;
                             for (songInfo s : litPlaylist) {
                                 i.putExtra("song name " + k, s.songName);
                                 i.putExtra("artist name " + k, s.artist);
+                                i.putExtra("pri " + k, s.priority);
                                 k++;
                             }
                             i.putExtra("length", k);
-                            DatabaseReference grab = FirebaseDatabase.getInstance().getReference("Sessions/" + ID + "/Playlist");
+                            DatabaseReference grab = FirebaseDatabase.getInstance().getReference("Sessions/" + ID);
                             backPressed = true;
-                            grab.setValue(litPlaylist);
-                            grab.getParent().removeValue();
+                            grab.removeValue();
                             startActivity(i);
                         }
 
@@ -438,7 +445,13 @@ public class joinSession extends AppCompatActivity {
         } else {
             passengerFinished = true;
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Waiting for the host to end voting." + System.getProperty("line.separator"));
+            builder.setTitle("Your choices have been submitted.");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    onStop();
+                }
+            });
             builder.show();
         }
     }
@@ -469,45 +482,18 @@ public class joinSession extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        Log.i("dest", "in onDestroy");
-        if(isHost && !backPressed) {
-            DatabaseReference grab = FirebaseDatabase.getInstance().getReference("Sessions/" + ID);
-            grab.child("done").setValue("true");
-        //    grab.removeValue();
-        } else if(!isHost){
-            db.getParent().child("done").removeEventListener(passengerListener);
+        if(isHost) {
+            db.getParent().child("done").setValue("true");
+            db.getParent().removeValue();
+            finish();
+        } else {
+            dbDone.removeEventListener(passengerListener);
             listen.removeEventListener(evl);
             finish();
-        } else {}
-        Log.i("dest", "onDestroy complete");
-    }
-
-    @Override
-    protected void onRestart() {
-        runActivity();
-        super.onRestart();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if(!isHost) {
-            db.getParent().child("done").removeEventListener(passengerListener);
-            listen.removeEventListener(evl);
-
         }
     }
 
     public void back_to_main(View view) {
-        if(isHost){
-            db.getParent().child("done").setValue("true");
-            db.getParent().removeValue();
-            backPressed = true;
-            finish();
-            //     Intent _done = new Intent(this, MainScreen.class);
-       //     startActivity(_done);
-        } else {
-            onStop();
-        }
+        onStop();
     }
 }

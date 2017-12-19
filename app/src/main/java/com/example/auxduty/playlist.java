@@ -40,7 +40,6 @@ public class playlist extends AppCompatActivity {
     Integer songPostion;
     HashMap<Integer, Integer>positions;
     TextView playingSong;
-    Boolean finished = false;
 
     /*            LISTENERS FOR FREEING               */
 
@@ -52,7 +51,7 @@ public class playlist extends AppCompatActivity {
 
         lv = (ListView) findViewById(R.id.playlist);
         Intent intent = getIntent();
-        ArrayList<String> songs = new ArrayList<>();
+        ArrayList<songInfo> songs = new ArrayList<>();
         positions = new HashMap<>();
         player = new ArrayList<>();
         display = new ArrayList<>();
@@ -61,21 +60,23 @@ public class playlist extends AppCompatActivity {
         songPostion = new Integer(0);
         playingSong = (TextView) findViewById(R.id.playingSong);
         for (int i = 0; i < len; i++) {
-            songs.add(intent.getStringExtra("song name " + i));
+            songInfo t = new songInfo(intent.getStringExtra("artist name " + i), intent.getStringExtra("song name " + i), intent.getIntExtra("pri " + i, 0));
+            songs.add(t);
         }
 
-        String selection = "" + MediaStore.MediaColumns.DISPLAY_NAME + "=?";
+        StringBuilder selection = new StringBuilder("");
+        selection.append(MediaStore.MediaColumns.DISPLAY_NAME + "=?");
 
         for(int i = 0; i < len - 1; i++) {
-           selection += (" OR " + MediaStore.MediaColumns.DISPLAY_NAME + "=?");
+           selection.append(" OR " + MediaStore.MediaColumns.DISPLAY_NAME + "=?");
         }
 
         String selectionArray[] = new String[len];
         for(int i = 0; i < len; i++) {
-            selectionArray[i] = songs.get(i);
+            selectionArray[i] = songs.get(i).songName;
         }
 
-        Cursor cursor = this.getContentResolver().query(uri, null, selection, selectionArray, null, null);
+        Cursor cursor = this.getContentResolver().query(uri, null, selection.toString(), selectionArray, null, null);
         String song_name, artist_name, fullpath;
 
         if (cursor != null) {
@@ -104,11 +105,14 @@ public class playlist extends AppCompatActivity {
             cursor.close();
         }
 
-        positionCallback cb = new positionCallback(this, lv, positions);
-        adapter = new playlistAdapter(this, R.layout.playlist_display, display, cb);
-        lv.setAdapter(adapter);
         currIndex = 0;
         if(len == 0) { return; }
+
+        mySort(songs);
+
+        adapter = new playlistAdapter(this, R.layout.playlist_display, display, null);
+        lv.setAdapter(adapter);
+
         playingSong.setText(display.get(currIndex).songName);
         player.get(currIndex).start();
     }
@@ -156,10 +160,8 @@ public class playlist extends AppCompatActivity {
             player.get(currIndex).seekTo(0);
             player.get(currIndex).start();
             adapter.playing--;
-            Log.i("color", "currIndex: " + (currIndex));
             if((currIndex + 1 >= top) && (currIndex + 1 <= bot)) {
                 lv.getChildAt(currIndex + 1 - top).setBackgroundColor(Color.parseColor("#ffffff"));
-                Log.i("color", "currIndex - 1 - top: " + (currIndex + 1 -top));
             }
             if(currIndex >= top && currIndex <= bot) {
                 lv.getChildAt(currIndex - top).setBackgroundColor(Color.parseColor("#ffa500"));
@@ -171,7 +173,7 @@ public class playlist extends AppCompatActivity {
     }
 
     public void endSeshClicked(View view) {
-        if (len == 0 && !finished) {
+        if (len == 0) {
             Intent intent = new Intent(this, MainScreen.class);
             startActivity(intent);
         } else {
@@ -188,16 +190,32 @@ public class playlist extends AppCompatActivity {
             this.view = null;
             this.len = 0;
             songPostion = null;
-            if(!finished) {
-                Intent intent = new Intent(this, MainScreen.class);
-                startActivity(intent);
+            Intent intent = new Intent(this, MainScreen.class);
+            startActivity(intent);
+        }
+    }
+
+    private void mySort(ArrayList<songInfo> d) {
+        int _size = d.size();
+        for(int i = 0; i < _size; i++) {
+            for(int j = 0; j < _size; j++) {
+                if(d.get(i).songName.substring(0, d.get(i).songName.length() - 4).equals(display.get(j).songName)) {
+                    songInfo temp = display.get(i);
+                    display.set(i, display.get(j));
+                    display.set(j, temp);
+
+                    MediaPlayer temp3 = player.get(i);
+                    player.set(i, player.get(j));
+                    player.set(j, temp3);
+                    break;
+                }
             }
         }
     }
 
     @Override
     protected void onDestroy() {
-        endSeshClicked(null);
         super.onDestroy();
+        endSeshClicked(null);
     }
 }
