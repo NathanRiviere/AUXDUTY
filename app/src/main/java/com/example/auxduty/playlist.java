@@ -1,4 +1,4 @@
-package com.example.auxduty;
+package nriviere97.auxduty;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -12,7 +12,6 @@ import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
@@ -21,10 +20,10 @@ import android.widget.ListView;
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.auxduty.Adapters.playlistAdapter;
-import com.example.auxduty.data.musicDataContract;
-import com.example.auxduty.firebaseHelpers.songInfo;
-import com.example.auxduty.positionCallback;
+import nriviere97.auxduty.Adapters.playlistAdapter;
+import nriviere97.auxduty.data.musicDataContract;
+import nriviere97.auxduty.firebaseHelpers.songInfo;
+import nriviere97.auxduty.positionCallback;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;

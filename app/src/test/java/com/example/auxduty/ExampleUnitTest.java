@@ -1,4 +1,4 @@
-package com.example.auxduty;
+package nriviere97.auxduty;
 
 import org.junit.Test;
 

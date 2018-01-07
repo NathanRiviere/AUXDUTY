@@ -1,4 +1,4 @@
-package com.example.auxduty;
+package nriviere97.auxduty;
 
 import android.content.Context;
 import android.util.Log;
@@ -26,7 +26,6 @@ public class positionCallback {
             mMap.put(pos, pos);
         } else {
             mMap.put(pos, mList.getPositionForView(view));
-            Log.i("fuck", "position of call view is: " + mList.getPositionForView(view));
         }
     }
 }

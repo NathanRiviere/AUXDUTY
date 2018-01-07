@@ -1,4 +1,4 @@
-package com.example.auxduty.firebaseHelpers;
+package nriviere97.auxduty.firebaseHelpers;
 
 import android.os.Build;
 import android.support.annotation.NonNull;

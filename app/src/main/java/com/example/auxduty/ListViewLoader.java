@@ -1,4 +1,4 @@
-package com.example.auxduty;
+package nriviere97.auxduty;
 
 import android.app.ListActivity;
 import android.app.LoaderManager;
@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
-import com.example.auxduty.data.musicDataContract.MusicEntry;
+import nriviere97.auxduty.data.musicDataContract.MusicEntry;
 
 public class ListViewLoader extends ListActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 

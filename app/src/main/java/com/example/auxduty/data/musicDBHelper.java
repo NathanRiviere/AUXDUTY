@@ -1,4 +1,4 @@
-package com.example.auxduty.data;
+package nriviere97.auxduty.data;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -9,7 +9,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.widget.Toast;
 
-import com.example.auxduty.data.musicDataContract.MusicEntry;
+import nriviere97.auxduty.data.musicDataContract.MusicEntry;
 
 public class musicDBHelper extends SQLiteOpenHelper {
     public static final String LOG_TAG = musicDBHelper.class.getSimpleName();

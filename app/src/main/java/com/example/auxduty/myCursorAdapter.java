@@ -1,4 +1,4 @@
-package com.example.auxduty;
+package nriviere97.auxduty;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -9,13 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import com.example.auxduty.data.musicDataContract.MusicEntry;
+import nriviere97.auxduty.data.musicDataContract.MusicEntry;
 
 public class myCursorAdapter extends CursorAdapter {
     private static final String TAG = "myCursorAdapter";
     myCursorAdapter(Context context, Cursor c) {
         super(context, c ,0);
-        Log.i(TAG, "adapter constructed");
     }
 
     @Override
@@ -31,6 +30,5 @@ public class myCursorAdapter extends CursorAdapter {
             String artist = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.ARTIST));
             tvSong.setText(song);
             tvArtist.setText(artist);
-            Log.i(TAG, "View set up");
     }
 }

@@ -1,4 +1,4 @@
-package com.example.auxduty;
+package nriviere97.auxduty;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,14 +11,13 @@ import android.support.annotation.UiThread;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.auxduty.Adapters.songAdapter;
-import com.example.auxduty.firebaseHelpers.songInfo;
+import nriviere97.auxduty.Adapters.songAdapter;
+import nriviere97.auxduty.firebaseHelpers.songInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -177,13 +176,9 @@ public class joinSession extends AppCompatActivity {
             db.getParent().child("song amount").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    Log.i("tag", dataSnapshot.getKey());
                     Long pSize = (Long) dataSnapshot.getValue();
-                    Log.i("tag", "pSize is " + pSize);
                     String s = "" + pSize;
-                    Log.i("tag", "s is " + s);
                     Integer i = Integer.parseInt(s);
-                    Log.i("tag", "i is " + i);
                     switch (i) {
                         case 5:
                             fireballCount = 1;
@@ -225,7 +220,6 @@ public class joinSession extends AppCompatActivity {
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot data : snapshot.getChildren()) {
                     songInfo song = data.getValue(songInfo.class);
-                    Log.i("songs", song.songName);
                     arr.add(song);
                 }
                 // TODO
@@ -307,13 +301,12 @@ public class joinSession extends AppCompatActivity {
                                 adapter.selected.put(Pos, "Green");
                                 checkCount--;
                                 tvCheck.setText("" + checkCount);
-                                Log.i("postion", "" + Pos);
                                 checkArray.add(Pos);
                             } else {
-                                Toast.makeText(getApplicationContext(), "Remove a checked song first.", Toast.LENGTH_LONG);
+                                Toast.makeText(getApplicationContext(), "Remove a checked song first.", Toast.LENGTH_LONG).show();
                             }
                         } else {
-                            Toast.makeText(getApplicationContext(), "Remove selection first.", Toast.LENGTH_LONG);
+                            Toast.makeText(getApplicationContext(), "Remove selection first.", Toast.LENGTH_LONG).show();
                         }
                     }
                 };
@@ -386,24 +379,19 @@ public class joinSession extends AppCompatActivity {
                             for (DataSnapshot deck : snapshot.getChildren()) {
                                 for (DataSnapshot songSnap : deck.getChildren()) {
                                     songInfo song = songSnap.getValue(songInfo.class);
-                                    Log.i("pri", "Priority before algorithm for song: " + song.songName + " priority is: " + song.priority);
                                     for (songInfo s : playlist) {
                                         if (s.songName.equals(song.songName) && s.artist.equals(song.artist)) {
                                             s.priority += song.priority + 15;
                                             songFound = true;
-                                            Log.i("pri", "Song match found for " + s.songName + " and " + song.songName);
                                         } else if (s.artist.equals(song.artist) && (!s.artist.equals("<unknown>"))) {
                                             s.priority += 10;
                                             song.priority += 10;
-                                            Log.i("pri", "artist match found for " + s.songName + " and " + song.songName);
                                         } else if (s.genre.equals(song.genre) && (!s.genre.equals("null"))) {
                                             s.priority += 5;
                                             song.priority += 5;
-                                            Log.i("pri", "genre match found for " + s.songName + " and " + song.songName);
                                         } else if (s.year == song.year && s.year != 0) {
                                             s.priority += 5;
                                             song.priority += 5;
-                                            Log.i("pri", "year match found for " + s.songName + " and " + song.songName);
                                         }
                                     }
                                     if (songFound) {
@@ -418,7 +406,6 @@ public class joinSession extends AppCompatActivity {
                             int length = playlist.size();
                             for (int i = 0; i < length && i < playlistSize; i++) {
                                 litPlaylist.add(playlist.get(i));
-                                Log.i("sort", "spot " + i + " with song name " + playlist.get(i).songName + " and priority " + playlist.get(i).priority);
                             }
                             Intent i = new Intent(getApplicationContext(), playlist.class);
                             int k = 0;

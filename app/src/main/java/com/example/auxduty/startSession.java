@@ -1,4 +1,4 @@
-package com.example.auxduty;
+package nriviere97.auxduty;
 
 import android.Manifest;
 import android.app.ListActivity;
@@ -21,10 +21,10 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
-import com.example.auxduty.data.musicDataContract.MusicEntry;
+import nriviere97.auxduty.data.musicDataContract.MusicEntry;
 
-import com.example.auxduty.data.musicDBHelper;
-import com.example.auxduty.data.musicDataContract;
+import nriviere97.auxduty.data.musicDBHelper;
+import nriviere97.auxduty.data.musicDataContract;
 
 public class startSession extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String TAG = "startSession";
@@ -35,16 +35,13 @@ public class startSession extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i(TAG, "Starting Activity");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_session);
         ListView list = (ListView) findViewById(R.id.list);
         mCursorAdapter = new myCursorAdapter(this, null);
         list.setAdapter(mCursorAdapter);
-        Log.i(TAG, "NULL cursor set");
         ActivityCompat.requestPermissions(startSession.this,
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-        Log.i(TAG, "Finish onCreate");
     }
 
     @Override
@@ -54,7 +51,6 @@ public class startSession extends AppCompatActivity implements LoaderManager.Loa
                 MediaStore.Audio.AudioColumns.ARTIST,
                 MediaStore.MediaColumns.DISPLAY_NAME
         };
-        Log.i(TAG, "Projection set up for CursorLoader");
         return new CursorLoader(this,
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 projection,
@@ -66,7 +62,6 @@ public class startSession extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mCursorAdapter.swapCursor(data);
-        Log.i(TAG, "Load Finished, Cursor Swapped");
     }
 
     @Override

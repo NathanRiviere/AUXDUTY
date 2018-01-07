@@ -1,4 +1,4 @@
-package com.example.auxduty.firebaseHelpers;
+package nriviere97.auxduty.firebaseHelpers;
 
 import android.app.LoaderManager;
 import android.content.AsyncTaskLoader;
@@ -14,17 +14,16 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.widget.Toast;
-import com.example.auxduty.data.musicDataContract;
-import com.example.auxduty.joinSession;
+import nriviere97.auxduty.joinSession;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
+import nriviere97.auxduty.firebaseHelpers.songInfo;
 
-public class firebaseSongSelection extends AsyncTask<Void, Void, ArrayList<songInfo>> {
+public class firebaseSongSelection extends AsyncTask<Void, Void, ArrayList<nriviere97.auxduty.firebaseHelpers.songInfo>> {
     private Context context;
     private ArrayList<songInfo> arr;
     private String _id;

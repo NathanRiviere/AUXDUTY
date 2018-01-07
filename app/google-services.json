@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:444945643480:android:26661ea10e6375b7",
         "android_client_info": {
-          "package_name": "com.example.auxduty"
+          "package_name": "nriviere97.auxduty"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "444945643480-rn74gsba3h255fs01fht1iov37mm8ghp.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.auxduty",
+            "package_name": "nriviere97.auxduty",
             "certificate_hash": "065066c495abaf4c635e25dfbaebb79136a18d9f"
           }
         },

@@ -1,4 +1,4 @@
-package com.example.auxduty.data;
+package nriviere97.auxduty.data;
 
 import android.provider.BaseColumns;
 

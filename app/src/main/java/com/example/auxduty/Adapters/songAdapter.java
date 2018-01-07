@@ -1,4 +1,4 @@
-package com.example.auxduty.Adapters;
+package nriviere97.auxduty.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -12,8 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.example.auxduty.R;
-import com.example.auxduty.firebaseHelpers.songInfo;
+import nriviere97.auxduty.R;
+import nriviere97.auxduty.firebaseHelpers.songInfo;
 
 import org.w3c.dom.Text;
 

@@ -1,4 +1,4 @@
-package com.example.auxduty;
+package nriviere97.auxduty;
 
 import android.*;
 import android.content.Context;
@@ -16,9 +16,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import stanford.androidlib.SimpleActivity;
-import com.example.auxduty.firebaseHelpers.firebaseSongSelection;
+import nriviere97.auxduty.firebaseHelpers.firebaseSongSelection;
 
-import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.view.animation.Animation;
@@ -28,8 +27,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.auxduty.firebaseHelpers.firebaseSongSelection;
-import com.example.auxduty.firebaseHelpers.songInfo;
+import nriviere97.auxduty.firebaseHelpers.firebaseSongSelection;
+import nriviere97.auxduty.firebaseHelpers.songInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -69,7 +68,6 @@ public class MainScreen extends SimpleActivity {
 
     public void startSessionClicked(View view) {
         if(pref.getString("sk", "null").equals("null")) {
-            Log.i("defKey", "sk is null");
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Enter Session Key");
 
@@ -95,7 +93,6 @@ public class MainScreen extends SimpleActivity {
             });
             builder.show();
         } else {
-            Log.i("defKey", "sk is " + pref.getString("sk", "null"));
             createSession(pref.getString("sk", "null"));
         }
     }
