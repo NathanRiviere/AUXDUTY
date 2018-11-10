@@ -7,7 +7,6 @@
 /build
 /captures
 .externalNativeBuild
-google-services.json
 .project
 .settings
 .classpath
