@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="nriviere97.auxduty">
+    package="ca.riverboatmedia.auxduty">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-feature android:glEsVersion="0x00020000" android:required="true" />
@@ -30,6 +30,12 @@
             android:screenOrientation="portrait">
         </activity>
         <activity android:name=".settingsView" />
+
+        <meta-data android:name="com.google.android.gms.car.application"
+            android:resource="@xml/automotive_app_desc"/>
+
     </application>
+
+
 
 </manifest>
