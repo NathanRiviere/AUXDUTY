@@ -1,4 +1,4 @@
-package ca.riverboatmedia.auxduty;
+package ca.riverboatmedia.auxduty2;
 
 import android.app.ListActivity;
 import android.app.LoaderManager;
@@ -6,13 +6,10 @@ import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
-import android.view.View;
 import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
 
-import ca.riverboatmedia.auxduty.data.musicDataContract.MusicEntry;
+import ca.riverboatmedia.auxduty2.data.musicDataContract;
 
 public class ListViewLoader extends ListActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -20,16 +17,16 @@ public class ListViewLoader extends ListActivity implements LoaderManager.Loader
     SimpleCursorAdapter mAdapter;
 
     // These are the Contacts rows that we will retrieve
-    static final String[] PROJECTION = new String[] {MusicEntry.COLUMN_SONG_NAME, MusicEntry.COLUMN_ARTIST};
+    static final String[] PROJECTION = new String[] {musicDataContract.MusicEntry.COLUMN_SONG_NAME, musicDataContract.MusicEntry.COLUMN_ARTIST};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // For the cursor adapter, specify which columns go into which views
-        String[] fromColumns = {MusicEntry.COLUMN_SONG_NAME, MusicEntry.COLUMN_ARTIST };
+        String[] fromColumns = {musicDataContract.MusicEntry.COLUMN_SONG_NAME, musicDataContract.MusicEntry.COLUMN_ARTIST };
 
-        int[] toViews = {(R.id.song_id), (R.id.artist_id)};
+        int[] toViews = {(ca.riverboatmedia.auxduty2.R.id.song_id), (ca.riverboatmedia.auxduty2.R.id.artist_id)};
         // The TextView in simple_list_item_1
         // Create an empty adapter we will use to display the loaded data.
         // We pass null for the cursor, then update it in onLoadFinished()

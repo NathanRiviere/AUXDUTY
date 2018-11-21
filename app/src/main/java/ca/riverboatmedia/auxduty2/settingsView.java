@@ -1,21 +1,13 @@
-package ca.riverboatmedia.auxduty;
+package ca.riverboatmedia.auxduty2;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by Nathan on 2017-12-11.
@@ -31,11 +23,11 @@ public class settingsView extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings_session);
+        setContentView(ca.riverboatmedia.auxduty2.R.layout.activity_settings_session);
         intent = getIntent();
         _def_key = intent.getStringExtra("session_key");
         curr_button = _playlistSize = intent.getIntExtra("playlist_size", 10);
-        et = (EditText) findViewById(R.id.EditText1);
+        et = (EditText) findViewById(ca.riverboatmedia.auxduty2.R.id.EditText1);
         if (_def_key.equals("null")) {
             et.setHint("Enter Default Session Key");
         } else {
@@ -43,16 +35,16 @@ public class settingsView extends Activity {
         }
         switch(_playlistSize){
             case 5:
-                findViewById(R.id.Button1).setBackgroundColor(Color.parseColor("#ffffff"));
+                findViewById(ca.riverboatmedia.auxduty2.R.id.Button1).setBackgroundColor(Color.parseColor("#ffffff"));
                 break;
             case 10:
-                findViewById(R.id.Button2).setBackgroundColor(Color.parseColor("#ffffff"));
+                findViewById(ca.riverboatmedia.auxduty2.R.id.Button2).setBackgroundColor(Color.parseColor("#ffffff"));
                 break;
             case 15:
-                findViewById(R.id.Button3).setBackgroundColor(Color.parseColor("#ffffff"));
+                findViewById(ca.riverboatmedia.auxduty2.R.id.Button3).setBackgroundColor(Color.parseColor("#ffffff"));
                 break;
             case 20:
-                findViewById(R.id.Button4).setBackgroundColor(Color.parseColor("#ffffff"));
+                findViewById(ca.riverboatmedia.auxduty2.R.id.Button4).setBackgroundColor(Color.parseColor("#ffffff"));
                 break;
         }
     }
@@ -81,16 +73,16 @@ public class settingsView extends Activity {
         } else {
             switch (curr_button) {
                 case 5:
-                    findViewById(R.id.Button1).setBackgroundColor(Color.parseColor("#D3D3D3"));
+                    findViewById(ca.riverboatmedia.auxduty2.R.id.Button1).setBackgroundColor(Color.parseColor("#D3D3D3"));
                     break;
                 case 10:
-                    findViewById(R.id.Button2).setBackgroundColor(Color.parseColor("#D3D3D3"));
+                    findViewById(ca.riverboatmedia.auxduty2.R.id.Button2).setBackgroundColor(Color.parseColor("#D3D3D3"));
                     break;
                 case 15:
-                    findViewById(R.id.Button3).setBackgroundColor(Color.parseColor("#D3D3D3"));
+                    findViewById(ca.riverboatmedia.auxduty2.R.id.Button3).setBackgroundColor(Color.parseColor("#D3D3D3"));
                     break;
                 case 20:
-                    findViewById(R.id.Button4).setBackgroundColor(Color.parseColor("#D3D3D3"));
+                    findViewById(ca.riverboatmedia.auxduty2.R.id.Button4).setBackgroundColor(Color.parseColor("#D3D3D3"));
                     break;
             }
         }

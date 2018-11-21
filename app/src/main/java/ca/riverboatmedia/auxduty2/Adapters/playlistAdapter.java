@@ -1,4 +1,4 @@
-package ca.riverboatmedia.auxduty.Adapters;
+package ca.riverboatmedia.auxduty2.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -8,15 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.TextView;
-import ca.riverboatmedia.auxduty.R;
-import ca.riverboatmedia.auxduty.firebaseHelpers.songInfo;
-import ca.riverboatmedia.auxduty.playlist;
-import ca.riverboatmedia.auxduty.positionCallback;
+import ca.riverboatmedia.auxduty2.R;
+import ca.riverboatmedia.auxduty2.firebaseHelpers.songInfo;
+import ca.riverboatmedia.auxduty2.positionCallback;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class playlistAdapter extends ArrayAdapter<songInfo> {
 

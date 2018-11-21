@@ -1,4 +1,4 @@
-package ca.riverboatmedia.auxduty.firebaseHelpers;
+package ca.riverboatmedia.auxduty2.firebaseHelpers;
 
 import android.os.Build;
 import android.support.annotation.NonNull;

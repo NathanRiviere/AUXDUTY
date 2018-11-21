@@ -1,41 +1,30 @@
-package ca.riverboatmedia.auxduty;
+package ca.riverboatmedia.auxduty2;
 
-import android.*;
 import android.content.Context;
-import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
-import android.provider.BaseColumns;
-import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
-import stanford.androidlib.SimpleActivity;
-import ca.riverboatmedia.auxduty.firebaseHelpers.firebaseSongSelection;
 
-import android.util.Pair;
+import ca.riverboatmedia.auxduty2.firebaseHelpers.firebaseSongSelection;
+import stanford.androidlib.SimpleActivity;
+
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import ca.riverboatmedia.auxduty.firebaseHelpers.firebaseSongSelection;
-import ca.riverboatmedia.auxduty.firebaseHelpers.songInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
 
 public class MainScreen extends SimpleActivity {
     private String m_Text;
@@ -51,9 +40,9 @@ public class MainScreen extends SimpleActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_screen);
-        ImageView fireImage = (ImageView) findViewById(R.id.fireImage);
-        fireImage.setBackgroundResource(R.drawable.mainpage_animation);
+        setContentView(ca.riverboatmedia.auxduty2.R.layout.activity_main_screen);
+        ImageView fireImage = (ImageView) findViewById(ca.riverboatmedia.auxduty2.R.id.fireImage);
+        fireImage.setBackgroundResource(ca.riverboatmedia.auxduty2.R.drawable.mainpage_animation);
         fire_animation = (AnimationDrawable) fireImage.getBackground();
         ActivityCompat.requestPermissions(MainScreen.this,
                 new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
