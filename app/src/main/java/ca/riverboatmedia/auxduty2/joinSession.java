@@ -1,13 +1,9 @@
-package ca.riverboatmedia.auxduty;
+package ca.riverboatmedia.auxduty2;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
-import android.os.Parcelable;
-import android.support.annotation.RequiresApi;
-import android.support.annotation.UiThread;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,17 +12,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import ca.riverboatmedia.auxduty.Adapters.songAdapter;
-import ca.riverboatmedia.auxduty.firebaseHelpers.songInfo;
+import ca.riverboatmedia.auxduty2.Adapters.songAdapter;
+import ca.riverboatmedia.auxduty2.firebaseHelpers.songInfo;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 @SuppressWarnings("Since15")
 public class joinSession extends AppCompatActivity {
@@ -89,7 +84,7 @@ public class joinSession extends AppCompatActivity {
     }
 
     private void runActivity() {
-        setContentView(R.layout.activity_join_session);
+        setContentView(ca.riverboatmedia.auxduty2.R.layout.activity_join_session);
 
         passengerFinished = false;
         mContext = this;
@@ -126,9 +121,9 @@ public class joinSession extends AppCompatActivity {
         _checkCount = checkCount;
 
         arr = new ArrayList<songInfo>();
-        tvFire = (TextView) findViewById(R.id.fireball_count);
-        tvStar = (TextView) findViewById(R.id.star_count);
-        tvCheck = (TextView) findViewById(R.id.check_count);
+        tvFire = (TextView) findViewById(ca.riverboatmedia.auxduty2.R.id.fireball_count);
+        tvStar = (TextView) findViewById(ca.riverboatmedia.auxduty2.R.id.star_count);
+        tvCheck = (TextView) findViewById(ca.riverboatmedia.auxduty2.R.id.check_count);
         tvFire.setText("" + fireballCount);
         tvStar.setText("" + starCount);
         tvCheck.setText("" + checkCount);
@@ -223,12 +218,12 @@ public class joinSession extends AppCompatActivity {
                     arr.add(song);
                 }
                 // TODO
-                list = (ListView) findViewById(R.id.listJoin);
+                list = (ListView) findViewById(ca.riverboatmedia.auxduty2.R.id.listJoin);
                 View.OnClickListener mFireListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int Pos = Integer.parseInt((String) v.getTag(R.id.fireball));
-                        int topPos = Integer.parseInt((String) list.getChildAt(0).findViewById(R.id.fireball).getTag(R.id.fireball));
+                        int Pos = Integer.parseInt((String) v.getTag(ca.riverboatmedia.auxduty2.R.id.fireball));
+                        int topPos = Integer.parseInt((String) list.getChildAt(0).findViewById(ca.riverboatmedia.auxduty2.R.id.fireball).getTag(ca.riverboatmedia.auxduty2.R.id.fireball));
                         if (adapter.selected.containsKey(Pos) && adapter.selected.get(Pos).equals("Orange")) {
                             View mView = list.getChildAt(Pos - topPos);
                             mView.setBackgroundColor(Color.parseColor("#ffffff"));
@@ -256,8 +251,8 @@ public class joinSession extends AppCompatActivity {
                 View.OnClickListener mStarListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int Pos = Integer.parseInt((String) v.getTag(R.id.star));
-                        int topPos = Integer.parseInt((String) list.getChildAt(0).findViewById(R.id.star).getTag(R.id.star));
+                        int Pos = Integer.parseInt((String) v.getTag(ca.riverboatmedia.auxduty2.R.id.star));
+                        int topPos = Integer.parseInt((String) list.getChildAt(0).findViewById(ca.riverboatmedia.auxduty2.R.id.star).getTag(ca.riverboatmedia.auxduty2.R.id.star));
                         if (adapter.selected.containsKey(Pos) && adapter.selected.get(Pos).equals("Yellow")) {
                             View mView = list.getChildAt(Pos - topPos);
                             mView.setBackgroundColor(Color.parseColor("#ffffff"));
@@ -285,8 +280,8 @@ public class joinSession extends AppCompatActivity {
                 View.OnClickListener mCheckListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int Pos = Integer.parseInt((String) v.getTag(R.id.check));
-                        int topPos = Integer.parseInt((String) list.getChildAt(0).findViewById(R.id.check).getTag(R.id.check));
+                        int Pos = Integer.parseInt((String) v.getTag(ca.riverboatmedia.auxduty2.R.id.check));
+                        int topPos = Integer.parseInt((String) list.getChildAt(0).findViewById(ca.riverboatmedia.auxduty2.R.id.check).getTag(ca.riverboatmedia.auxduty2.R.id.check));
                         if (adapter.selected.containsKey(Pos) && adapter.selected.get(Pos).equals("Green")) {
                             View mView = list.getChildAt(Pos - topPos);
                             mView.setBackgroundColor(Color.parseColor("#ffffff"));
@@ -311,7 +306,7 @@ public class joinSession extends AppCompatActivity {
                     }
                 };
 
-                adapter = new songAdapter(mContext, R.layout.song_display, arr, mFireListener, mStarListener, mCheckListener);
+                adapter = new songAdapter(mContext, ca.riverboatmedia.auxduty2.R.layout.song_display, arr, mFireListener, mStarListener, mCheckListener);
                 list.setAdapter(adapter);
             }
 

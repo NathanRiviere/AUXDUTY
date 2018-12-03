@@ -1,10 +1,8 @@
-package ca.riverboatmedia.auxduty;
+package ca.riverboatmedia.auxduty2;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -12,19 +10,14 @@ import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.MediaController;
 import android.widget.TextView;
-import android.widget.Toast;
-import ca.riverboatmedia.auxduty.Adapters.playlistAdapter;
-import ca.riverboatmedia.auxduty.data.musicDataContract;
-import ca.riverboatmedia.auxduty.firebaseHelpers.songInfo;
-import ca.riverboatmedia.auxduty.positionCallback;
-import java.net.URI;
+
+import ca.riverboatmedia.auxduty2.Adapters.playlistAdapter;
+import ca.riverboatmedia.auxduty2.firebaseHelpers.songInfo;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -46,9 +39,9 @@ public class playlist extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_playlist);
+        setContentView(ca.riverboatmedia.auxduty2.R.layout.activity_playlist);
 
-        lv = (ListView) findViewById(R.id.playlist);
+        lv = (ListView) findViewById(ca.riverboatmedia.auxduty2.R.id.playlist);
         Intent intent = getIntent();
         ArrayList<songInfo> songs = new ArrayList<>();
         positions = new HashMap<>();
@@ -57,7 +50,7 @@ public class playlist extends AppCompatActivity {
         len = intent.getIntExtra("length", 0);
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         songPostion = new Integer(0);
-        playingSong = (TextView) findViewById(R.id.playingSong);
+        playingSong = (TextView) findViewById(ca.riverboatmedia.auxduty2.R.id.playingSong);
         for (int i = 0; i < len; i++) {
             songInfo t = new songInfo(intent.getStringExtra("artist name " + i), intent.getStringExtra("song name " + i), intent.getIntExtra("pri " + i, 0));
             songs.add(t);
@@ -109,7 +102,7 @@ public class playlist extends AppCompatActivity {
 
         mySort(songs);
 
-        adapter = new playlistAdapter(this, R.layout.playlist_display, display, null);
+        adapter = new playlistAdapter(this, ca.riverboatmedia.auxduty2.R.layout.playlist_display, display, null);
         lv.setAdapter(adapter);
 
         playingSong.setText(display.get(currIndex).songName);

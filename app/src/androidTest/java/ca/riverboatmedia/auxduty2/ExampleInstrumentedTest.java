@@ -1,4 +1,4 @@
-package ca.riverboatmedia.auxduty;
+package ca.riverboatmedia.auxduty2;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

@@ -1,30 +1,20 @@
-package ca.riverboatmedia.auxduty;
+package ca.riverboatmedia.auxduty2;
 
 import android.Manifest;
-import android.app.ListActivity;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
-import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
-import ca.riverboatmedia.auxduty.data.musicDataContract.MusicEntry;
 
-import ca.riverboatmedia.auxduty.data.musicDBHelper;
-import ca.riverboatmedia.auxduty.data.musicDataContract;
+import ca.riverboatmedia.auxduty2.data.musicDBHelper;
 
 public class startSession extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String TAG = "startSession";
@@ -36,8 +26,8 @@ public class startSession extends AppCompatActivity implements LoaderManager.Loa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start_session);
-        ListView list = (ListView) findViewById(R.id.list);
+        setContentView(ca.riverboatmedia.auxduty2.R.layout.activity_start_session);
+        ListView list = (ListView) findViewById(ca.riverboatmedia.auxduty2.R.id.list);
         mCursorAdapter = new myCursorAdapter(this, null);
         list.setAdapter(mCursorAdapter);
         ActivityCompat.requestPermissions(startSession.this,

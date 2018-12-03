@@ -1,4 +1,4 @@
-package ca.riverboatmedia.auxduty.data;
+package ca.riverboatmedia.auxduty2.data;
 
 import android.provider.BaseColumns;
 

@@ -1,4 +1,4 @@
-package ca.riverboatmedia.auxduty.data;
+package ca.riverboatmedia.auxduty2.data;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -9,7 +9,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.widget.Toast;
 
-import ca.riverboatmedia.auxduty.data.musicDataContract.MusicEntry;
+import ca.riverboatmedia.auxduty2.data.musicDataContract.MusicEntry;
 
 public class musicDBHelper extends SQLiteOpenHelper {
     public static final String LOG_TAG = musicDBHelper.class.getSimpleName();

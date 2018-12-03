@@ -1,29 +1,20 @@
-package ca.riverboatmedia.auxduty.firebaseHelpers;
+package ca.riverboatmedia.auxduty2.firebaseHelpers;
 
-import android.app.LoaderManager;
-import android.content.AsyncTaskLoader;
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.CursorLoader;
 import android.content.Intent;
-import android.content.Loader;
 import android.database.Cursor;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.provider.BaseColumns;
 import android.provider.MediaStore;
-import android.widget.Toast;
-import ca.riverboatmedia.auxduty.joinSession;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
-import java.util.ArrayList;
-import ca.riverboatmedia.auxduty.firebaseHelpers.songInfo;
 
-public class firebaseSongSelection extends AsyncTask<Void, Void, ArrayList<ca.riverboatmedia.auxduty.firebaseHelpers.songInfo>> {
+import ca.riverboatmedia.auxduty2.joinSession;
+
+import com.google.firebase.database.DatabaseReference;
+
+import java.util.ArrayList;
+
+public class firebaseSongSelection extends AsyncTask<Void, Void, ArrayList<songInfo>> {
     private Context context;
     private ArrayList<songInfo> arr;
     private String _id;

@@ -1,8 +1,7 @@
-package ca.riverboatmedia.auxduty.Adapters;
+package ca.riverboatmedia.auxduty2.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.media.MediaPlayer;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -12,14 +11,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import ca.riverboatmedia.auxduty.R;
-import ca.riverboatmedia.auxduty.firebaseHelpers.songInfo;
-
-import org.w3c.dom.Text;
+import ca.riverboatmedia.auxduty2.R;
+import ca.riverboatmedia.auxduty2.firebaseHelpers.songInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class songAdapter extends ArrayAdapter<songInfo> {
     private int fireballCount, starCount, checkCount;
